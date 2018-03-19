@@ -26,6 +26,7 @@ export class Dashboard extends Component {
       }
     }
 
+    /* TODO: change this to submenu endpoint */
     componentDidMount() {
         $.ajax({
             url: global.endpoints[global.env].ACCORDION,

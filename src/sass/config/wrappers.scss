@@ -207,7 +207,7 @@
 
 .wrapper__content--login {
     display: block;
-    margin: 0 10px;
+    margin: 10px;
     border-radius: 5px;
     padding: 10px;
     overflow: hidden;
@@ -219,8 +219,8 @@
 
     @include tablet {
         width: 50%;
-        max-width: 650px;
-        margin: 0 auto;
+        max-width: 500px;
+        margin: 100px auto;
         padding: 30px 75px;
     }
 

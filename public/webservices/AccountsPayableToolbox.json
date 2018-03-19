@@ -1,130 +1,258 @@
 {
     "results" : [{
-        "linkName" : "Reports",
-        "url" : "http://google.com",
+        "linkName" : "Analysis",
+        "url" : "#",
         "subLinks" : [{
-            "linkName" : "Suppliers",
-            "url" : "http://google.com",
-            "subLinks" : [{
-                    "linkName" : "Numerical Listing",
-                    "url" : "http://google.com",
-                    "subLinks" : [{
-                        "linkName" : "LOLOL",
-                        "url" : "http://google.com"
-                    }]
-                }, {
-                    "linkName" : "Alphabetical Listing",
-                    "url" : "http://google.com"
-                }, {
-                    "linkName" : "Labels - to send",
-                    "url" : "http://google.com"
-                }, {
-                    "linkName" : "Labels - for filing",
-                    "url" : "http://google.com"
-                }]
-            },
-            {
-                "linkName" : "Cash Requirement Pre-list",
-                "url" : "http://google.com",
-                "subLinks" : [{
-                        "linkName" : "But nmmoooom",
-                        "url" : "http://google.com",
-                        "subLinks" : [{
-                            "linkName" : "LOLOL",
-                            "url" : "http://google.com"
-                        }]
-                    }, {
-                        "linkName" : "hi",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "goddd",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Labesdffsdfds filing",
-                        "url" : "http://google.com"
-                    }]
-            },
-            {
-                "linkName" : "Aged Trial Balance",
-                "url" : "http://google.com"
+            "linkName" : "G/L Analysis",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMA&othparam=MNUOPT=1&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+            "linkName" : "P.O.Analysis",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMA&othparam=MNUOPT=2&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
             }]
         }, {
-            "linkName" : "Database",
-            "url" : "http://google.com",
-            "subLinks" : [{
-                "linkName" : "Queries",
-                "url" : "http://google.com",
-                "subLinks" : [{
-                        "linkName" : "AP0.SPL Suppliers",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Alphabetical Listing",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Labels - to send",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Labels - for filing",
-                        "url" : "http://google.com"
-                    }]
-                }, {
-                    "linkName" : "Cash Requirement Pre-list",
-                    "url" : "http://google.com"
-                }, {
-                    "linkName" : "Aged Trial Balance",
-                    "url" : "http://google.com"
-                }]
+        "linkName" : "Reports",
+        "url" : "#",
+        "subLinks" : [{
+            "linkName" : "Suppliers",
+            "url" : "#",
+            "subLinks": [{
+                "linkName" : "Numerical Listing",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=1%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Alphabetical Listing",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=1%202&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Labels - To Send",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=1%203&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Labels - For Filing",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=1%204&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }]
         }, {
-            "linkName" : "Database",
-            "url" : "http://google.com",
-            "subLinks" : [{
-                "linkName" : "Queries",
-                "url" : "http://google.com",
-                "subLinks" : [{
-                        "linkName" : "AP0.SPL Suppliers",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Alphabetical Listing",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Labels - to send",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Labels - for filing",
-                        "url" : "http://google.com"
-                    }]
-                }, {
-                    "linkName" : "Cash Requirement Pre-list",
-                    "url" : "http://google.com"
-                }, {
-                    "linkName" : "Aged Trial Balance",
-                    "url" : "http://google.com"
-                }]
+            "linkName" : "Cash Requirement Pre-List",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=2&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
         }, {
-            "linkName" : "Database",
-            "url" : "http://google.com",
-            "subLinks" : [{
+            "linkName" : "Aged Trial Balance",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=3&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Reprint of A/P Batch",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=4&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Month to Date Batch Summ.",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=5&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Monthly Reports",
+            "url" : "#",
+            "subLinks": [{
+                "linkName" : "Cash Requirements Pre-List",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=6%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Aged Trial Balance",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=6%202&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Cheque Register",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=6%203&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "General Ledger Distribution",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=1%204&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Choose/General Ledger Distribution",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=1%205&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }]
+        }, {
+            "linkName" : "Annual Reports",
+            "url" : "#",
+            "subLinks": [{
+                "linkName" : "Summary Analysis/Month - Supplier # / G/L #",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=7%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Summary Analysis/Month - G/L # / Supplier #",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=7%202&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Vouchers Paid - Hist. / Supplier",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=7%203&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Cheque Register _ Year-to-Date",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=7%204&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Historical G/L Distribution",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=7%205&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Purchasing Summary/Supplier 12 Months",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=7%206&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Statement of contract payments-Form:T5018",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=1%207&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Form 1099-MISC (USA)",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMR&othparam=MNUOPT=1%208&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }]
+        }, {
+            "linkName" : "Work with Spool Files",
+            "url" : "/commonsense/servlet/com.sia.commonsense.spool.servlets.spoolServlet?command=list', 'spool', 560, 1120)"
+        }]
+    }, {
+        "linkName" : "Database",
+        "url" : "#",
+        "subLinks" : [{
+            "linkName" : "Suppliers",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMD&othparam=MNUOPT=1&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Resources",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMD&othparam=MNUOPT=2&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
                 "linkName" : "Queries",
-                "url" : "http://google.com",
+                "url" : "#",
                 "subLinks" : [{
-                        "linkName" : "AP0.SPL Suppliers",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Alphabetical Listing",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Labels - to send",
-                        "url" : "http://google.com"
-                    }, {
-                        "linkName" : "Labels - for filing",
-                        "url" : "http://google.com"
-                    }]
+                    "linkName" : "AP0.SPL Suppliers",
+                    "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMD&othparam=MNUOPT=3%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
                 }, {
-                    "linkName" : "Cash Requirement Pre-list",
-                    "url" : "http://google.com"
+                    "linkName" : "ES0.SMST Resources",
+                    "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMD&othparam=MNUOPT=3%202&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
                 }, {
-                    "linkName" : "Aged Trial Balance",
-                    "url" : "http://google.com"
+                    "linkName" : "AP0.OPEN Items to pay",
+                    "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMD&othparam=MNUOPT=3%203&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+                }, {
+                    "linkName" : "AP0.VHST Historicals",
+                    "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMD&othparam=MNUOPT=3%204&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+                }, {
+                    "linkName" : "AP0.DHST YtD Details",
+                    "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMD&othparam=MNUOPT=3%205&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+                }, {
+                    "linkName" : "AP0.DATE Equivalences",
+                    "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMD&othparam=MNUOPT=3%206&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
                 }]
-    }]
+            }]
+    }, {
+        "linkName" : "Options",
+        "url" : "#",
+        "subLinks" : [{
+            "linkName" : "Voucher modification...",
+            "url" : "#",
+            "subLinks" : [{
+                "linkName" : "Apply Cheque #, date to Vouchers",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=1%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Modify due week and/or discount terms by voucher",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=1%202&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Modify cheque # and date",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=1%203&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Split a Voucher for Partial Payment",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=1%204&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Print Cash Requirement Pre-List by week number",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=1%205&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Print Cheques issued this Month",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=1%206&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }]
+        }, {
+            "linkName" : "Bank Reconciliation",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=2&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Cheques Printing...",
+            "url" : "#",
+            "subLinks" : [{
+                "linkName" : "Backup of Accounts Payables Files",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=3%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Enter Date and Week number",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=3%202&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Cheques Printing and Registers",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=3%203&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Registers Printing if chq not required",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=3%204&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Restore Printing from before option",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=3%205&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }]
+        }, {
+            "linkName" : "Cancel Cheque -> Re-Create Voucher",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=4&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Monthly closing...",
+            "url" : "#",
+            "subLinks" : [{
+                "linkName" : "Month End Regular Report",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=5%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Month End",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=5%202&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Restore Files from before Month End",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=5%203&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }]
+        }, {
+            "linkName" : "Year-End...",
+            "url" : "#",
+            "subLinks" : [{
+                "linkName" : "Year End",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=6%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Restore before Year End",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=6%202&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }]
+        }, {
+            "linkName" : "Purge of A/P Vouchers",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=7&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Transfer A/P to Resource",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=8&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Display outstanding future vouchers",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=9&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Upload Resource/Supplier",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=10&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Find Check",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=11&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Invoice Repair W/O",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMO&othparam=MNUOPT=12&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Upload Resources - Intermediate Files",
+            "url" : "/commonsense/ap/import.jsp"
+        }]
+}, {
+    "linkName" : "Tables",
+    "url" : "#",
+    "subLinks" : [{
+            "linkName" : "Cross ref. (Due week)",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMT&othparam=MNUOPT=1&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Periods Control",
+            "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMT&othparam=MNUOPT=2&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+            "linkName" : "Codes...",
+            "url" : "#",
+            "subLinks" : [{
+                "linkName" : "Language Codes",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMT&othparam=MNUOPT=3%201&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }, {
+                "linkName" : "Currency Codes",
+                "url" : "popUpWindow('/commonsense/Currency_AP0012_ListAction.do?method=list','currencyCode',500,700)"
+            }]
+        }, {
+                "linkName" : "Vouchers by Division",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMT&othparam=MNUOPT=4&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+                "linkName" : "Holdbacks",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMT&othparam=MNUOPT=5&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }, {
+                "linkName" : "A/P Due Week listing",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMT&othparam=MNUOPT=6&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+        }]
+    }, {
+        "linkName" : "Setup",
+        "url" : "#",
+        "subLinks" : [{
+                "linkName" : "Questionnaire",
+                "url" : "/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=APMS&othparam=MNUOPT=1&app=SIAWebFacing&turnCacheOff='+(new Date()).getTime())"
+            }]
+        }]
 }

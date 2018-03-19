@@ -218,6 +218,7 @@ export class DataTable extends Component {
                     }
                 }
 
+                /* TODO: */
                 if (this.dataColumns.length) {
                     tableHeaders = this.dataColumns.map(function(item, key) {
                         filterBy = (this.dataColumns && (this.dataColumns.indexOf(item) !== -1)) ? { type: 'TextFilter' } : {};

@@ -398,7 +398,7 @@ body {
 
 .wrapper__content--login {
   display: block;
-  margin: 0 10px;
+  margin: 10px;
   border-radius: 5px;
   padding: 10px;
   overflow: hidden;
@@ -406,8 +406,8 @@ body {
   @media only screen and (min-device-width: 767px) {
     .wrapper__content--login {
       width: 50%;
-      max-width: 650px;
-      margin: 0 auto;
+      max-width: 500px;
+      margin: 100px auto;
       padding: 30px 75px; } }
 
 @font-face {
@@ -2467,22 +2467,30 @@ th.react-bs-table-expand-cell > div {
   outline: 0;
   width: 100%;
   margin: 5px 0;
-  border: 0;
-  border-radius: 15px;
+  border: 1px solid #E2EBEB;
+  border-radius: 0;
   padding: 10px;
   background-color: #E2EBEB;
   color: #2D74DA;
   color: #1F57A4;
   font-size: 12px;
-  font-weight: 400; }
+  font-weight: 400;
+  webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -ms-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in; }
+
+.login__input:focus {
+  border: 1px solid #2D74DA; }
 
 .login__submit {
   width: 100%;
-  margin: 30px 0 0;
+  margin: 10px 0 0;
   border: none;
-  border-radius: 5px;
-  padding: 20px;
-  background-color: #F26322;
+  border-radius: 50px;
+  padding: 15px;
+  background-color: #1F57A4;
   text-transform: uppercase;
   color: #FFF;
   font-size: 14px;
@@ -2530,9 +2538,8 @@ th.react-bs-table-expand-cell > div {
     outline: 0;
     width: 100%;
     margin: 5px 0;
-    border: 0;
-    border-radius: 40px;
-    padding: 20px;
+    border-radius: 5px;
+    padding: 10px;
     background-color: #E2EBEB;
     color: #2D74DA;
     color: #1F57A4;
@@ -2542,13 +2549,18 @@ th.react-bs-table-expand-cell > div {
     width: 100%;
     margin: 20px 0 0;
     border: none;
-    border-radius: 5px;
-    padding: 30px;
-    background-color: #F26322;
+    padding: 20px;
     text-transform: uppercase;
     color: #FFF;
-    font-size: 24px;
-    font-weight: 400; } }
+    font-size: 18px;
+    font-weight: 700;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    -ms-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in; }
+  .login__submit:hover {
+    background-color: #2D74DA; } }
 
 .spinner {
   width: 40px;

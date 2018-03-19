@@ -125,6 +125,7 @@ global.AccountsPayable = {
     }, {
         name: 'dataTable',
         title: 'cashDisbursement',
+        bootStrapClass : 'col-lg-6 col-sm-12',
         endpoint: global.endpoints[global.env].ACCOUNTS_PAYABLE_CASH_DISBURSEMENT,
         defaultColumns: [{
                 name: 'name',

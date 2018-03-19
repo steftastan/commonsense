@@ -248,7 +248,9 @@ export function ConvertRgbToRgba(color, opacity) {
  *
  * Add more formatting options by adding new cases to the switch.
  */
-export function DataFormatter(cell, row, type) {
+
+ /* TODO adjust logic tomake generic but idk */
+export function DataFormatter(cell, row, type, cb) {
 	switch(type) {
 	    case 'currency':
 	        cell = numeral(cell).format('$0,0.00');

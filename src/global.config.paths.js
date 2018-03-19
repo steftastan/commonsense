@@ -18,6 +18,7 @@ global.paths = {
 
 global.endpoints  = {
     dev: {
+        AUTH: '',
         SESSION: '/webservices/Session.json',
         COMPANIES: '/webservices/Companies.json',
         ACCORDION: '/webservices/FullMenu.json',
@@ -32,6 +33,7 @@ global.endpoints  = {
     },
 
     prod: {
+        AUTH: '/commonsense/services/user/authentication/login',
         SESSION: '/commonsense/services/user/session',
         COMPANIES: '/commonsense/services/user/portal/companies',
         ACCORDION: '/commonsense/services/user/portal/menu',

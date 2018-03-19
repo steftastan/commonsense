@@ -181,7 +181,6 @@ export class ToolBox extends Component {
         if (this.state.device === 'mobile') {
             this.toolBoxWrapper.addEventListener('click', this.animateToolBox);
         } else {
-
             $(document).ready(function() {
                 $('.navbar a.toolBox__toggle').on('click', function(e) {
                     var $el = $(this);
@@ -227,6 +226,7 @@ export class ToolBox extends Component {
 
         if (this.state.toolBox) {
             renderToolBox = this.state.toolBox.map(function(item, key) {
+                console.log(item);
                 if (item.subLinks && item.subLinks.length) {
                     this.subLinks = item.subLinks;
                 }
@@ -266,8 +266,8 @@ export class SubLinks extends Component {
     render() {
         var tools = [];
         var subMenu = [];
-        var menuClass = this.props.menuClass;
-        var tbClass = this.props.tbClass;
+        var menuClass;
+        var tbClass = this.props.tbClass || this.tbClass;
 
         if (this.props.subLinks) {
             tools = this.props.subLinks.map(function(item, key) {
@@ -282,9 +282,10 @@ export class SubLinks extends Component {
                  * as the application keeps finding subLink arrays.
                  * print an option without an arrow once we run out of children.
                  */
-
                 if (!item.subLinks) {
                     menuClass = this.noSubLinks;
+                } else {
+                    menuClass = this.props.menuClass || this.menuClass;
                 }
 
                 if (item.subLinks) {

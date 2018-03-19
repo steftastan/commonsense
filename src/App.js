@@ -7,7 +7,6 @@ import { Switch, Route } from 'react-router-dom';
 import { Header } from './components/layout/header.js';
 import { CompanyList } from './components/layout/company-list.js';
 import { Accordion } from './components/layout/accordion.js';
-import { Login } from './pages/Login.js';
 import { ChangePassword } from './pages/ChangePassword.js';
 import { Dashboard } from './pages/Dashboard.js';
 
@@ -32,6 +31,9 @@ export class App extends Component {
       this.Camelize = Camelize;
       this.Localization = Localization;
       this.updateCompany = this.updateCompany.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+      this.isLogin = false;
+      this.activeSession = false;
       this.companies = {};
       this.language = '';
       this.employeeName = '';
@@ -48,9 +50,51 @@ export class App extends Component {
           companies: [],
           employeeName: '',
           defaultCompany: '',
-          logoPath: ''
+          logoPath: '',
+          isLogin: false,
+          activeSession: false,
+          username: '',
+          password: '',
+          content: (<div className="spinner"></div>)
       }
     }
+
+    handleSubmit(e) {
+        if (e) e.preventDefault();
+
+        $.ajax({
+    		url: global.endpoints[global.env].AUTH,
+    		method: 'POST',
+    		cache: false,
+    		data: JSON.stringify({username: this.state.username, password: this.state.password}),
+    		success: function(data, status) {
+                if (data.success) this.setState({isLogin: true});
+
+                /*tryin stuff*/
+                $.ajax({
+                    url: global.endpoints[global.env].SESSION,
+                    dataType: 'json',
+                    cache: false,
+                    method: 'GET',
+                    success: function(data) {
+                        this.employeeName = data.userId;
+                        this.defaultCompany = data.fileName;
+                        this.language = data.language;
+                        this.activeSession = true;
+                        window.location.href = global.paths[global.env].REACT_LINK+global.paths[global.env].DASHBOARD;
+                    }.bind(this),
+                    error: function(xhr, status, err) {
+                        console.error(xhr, status, err.toString());
+                    }.bind(this)
+                });
+
+    		}.bind(this),
+    		error: function(xhr, status, err) {
+    			console.error(xhr, status, err.toString());
+    		}.bind(this)
+       });
+    }
+
 
     /* Function that gets triggered when the company dropdown list is used to switch companies */
     updateCompany(e) {
@@ -78,73 +122,80 @@ export class App extends Component {
           * page we are on at the time.
           *
           */
-        $.when(
 
-            $.ajax({
-                url: global.endpoints[global.env].SESSION,
-                dataType: 'json',
-                cache: false,
-                success: function(data) {
-                    this.employeeName = data.userId;
-                    this.defaultCompany = data.fileName;
-                    this.language = data.language;
-                }.bind(this),
-                error: function(xhr, status, err) {
-                    console.error(this.state.url, status, err.toString());
-                }.bind(this)
-            }),
+         console.log('get session details');
 
-            $.ajax({
-                url: global.endpoints[global.env].ACCORDION,
-                dataType: 'json',
-                cache: false,
-                success: function(data) {
-                    if (data && data.results) {
-                        this.accordion = data;
-                        this.routes = data.results;
-                    }
-                }.bind(this),
-                error: function(xhr, status, err) {
-                    console.error(this.state.url, status, err.toString());
-                }.bind(this)
-            }),
+         $.when(
+             $.ajax({
+                 url: global.endpoints[global.env].SESSION,
+                 dataType: 'json',
+                 cache: false,
+                 method: 'GET',
+                 success: function(data) {
+                     this.employeeName = data.userId;
+                     this.defaultCompany = data.fileName;
+                     this.language = data.language;
+                     this.activeSession = true;
+                 }.bind(this),
+                 error: function(xhr, status, err) {
+                     console.error(xhr, status, err.toString());
+                 }.bind(this)
+             }),
 
-            $.ajax({
-                url: global.endpoints[global.env].COMPANIES,
-                dataType: 'json',
-                cache: false,
-                success: function(data) {
-                    this.companies = data;
-                }.bind(this),
-                error: function(xhr, status, err) {
-                    console.error(this.state.url, status, err.toString());
-                }.bind(this)
-            })
+             $.ajax({
+                 url: global.endpoints[global.env].ACCORDION,
+                 dataType: 'json',
+                 cache: false,
+                 success: function(data) {
+                     if (data && data.results) {
+                         this.accordion = data;
+                         this.routes = data.results;
+                     }
+                 }.bind(this),
+                 error: function(xhr, status, err) {
+                     console.error(xhr, status, err.toString());
+                 }.bind(this)
+             }),
 
-        ).then(function() {
+             $.ajax({
+                 url: global.endpoints[global.env].COMPANIES,
+                 dataType: 'json',
+                 cache: false,
+                 success: function(data) {
+                     this.companies = data;
+                 }.bind(this),
+                 error: function(xhr, status, err) {
+                     console.error(xhr, status, err.toString());
+                 }.bind(this)
+             })
 
-            /* Set the state variables for all the information obtained in every AJAX call */
+         ).then(function() {
 
-                this.setState({
-                    accordion: this.accordion,
-                    companies: this.companies,
-                    employeeName: this.employeeName,
-                    defaultCompany: this.defaultCompany,
-                    language: this.language,
-                    routes: this.routes,
-                    logoPath: global.paths[global.env].BASE_URL+'images/logo/'+this.defaultCompany+'/logo.gif'
-                });
+             /* Set the state variables for all the information obtained in every AJAX call */
+
+             this.setState({
+                 activeSession: this.activeSession,
+                 accordion: this.accordion,
+                 companies: this.companies,
+                 employeeName: this.employeeName,
+                 defaultCompany: this.defaultCompany,
+                 language: this.language,
+                 routes: this.routes,
+                 logoPath: global.paths[global.env].BASE_URL+'images/logo/'+this.defaultCompany+'/logo.gif'
+             });
+
+             if (this.state.activeSession) {
+                 /*do stuff */
+             }
 
 
-        }.bind(this));
-
+         }.bind(this));
     }
 
     render() {
 
         var componentName;
         var staticPages = [
-            {component: Login, path: 'login'},
             {component: ChangePassword, path: 'change-password'}
         ];
 
@@ -156,7 +207,7 @@ export class App extends Component {
             this.routesToComponents.push(<Route
                 exact
                 key={key}
-                path={global.paths[global.env].REACT_LINK+comp.path}
+                path={global.paths[global.env].BASE_URL+comp.path}
                 component={comp.component} />);
         }, this);
 
@@ -263,31 +314,64 @@ export class App extends Component {
             }, this);
         }
 
-        return (
-            <div className="wrapper wrapper__app App">
-                <Accordion
-                    links={this.state.accordion}
-                    employeeName={this.state.employeeName}
-                    language={this.state.language}>
-                    <CompanyList
-                        onChange={this.updateCompany}
-                        defaultCompanyName={this.state.defaultCompany}
-                        defaultCompanyIcon={this.state.logoPath}
-                        companies={this.state.companies}
-                        language={this.state.language} />
-                 </Accordion>
-                 <section id="contentWrapper" className="wrapper wrapper__content wrapper__content--inner">
-                     <Header
-                        companies={this.state.companies}
-                        defaultCompanyName={this.state.defaultCompany}
-                        defaultCompanyIcon={this.state.logoPath}
-                        language={this.state.language} />
-                    <Switch>
-                        {this.routesToComponents}
-                    </Switch>
-                 </section>
-            </div>
-        );
+        if (this.state.activeSession) {
+            console.log('user is logged in');
+            return (
+                <div className="wrapper wrapper__app App">
+                    <Accordion
+                        links={this.state.accordion}
+                        employeeName={this.state.employeeName}
+                        language={this.state.language}>
+                        <CompanyList
+                            onChange={this.updateCompany}
+                            defaultCompanyName={this.state.defaultCompany}
+                            defaultCompanyIcon={this.state.logoPath}
+                            companies={this.state.companies}
+                            language={this.state.language} />
+                     </Accordion>
+                     <section id="contentWrapper" className="wrapper wrapper__content wrapper__content--inner">
+                         <Header
+                            companies={this.state.companies}
+                            defaultCompanyName={this.state.defaultCompany}
+                            defaultCompanyIcon={this.state.logoPath}
+                            language={this.state.language} />
+                        <Switch>
+                            {this.routesToComponents}
+                        </Switch>
+                     </section>
+                </div>
+            );
+        } else {
+            /*set timeout to hide login while stuff loads */
+            setTimeout(function() {
+                this.setState({content: (
+                    <div className="container-fluid wrapper__content--login">
+                        <h2 className="login__title">Login to continue</h2>
+                        <form>
+                            <input name="username" className="login__input" type="text" placeholder="Username"
+                                onChange={(event) => this.setState({username: event.target.value})}/>
+                            <input name="password" className="login__input" type="password" placeholder="Password"
+                                onChange={(event) => this.setState({password: event.target.value})}/>
+                            <input name="submit" className="login__submit" onClick={this.handleSubmit} type="submit" value="Log in"/>
+                            <span className="login__rememberMe">
+                                <input className="login__remember--checkbox" type="checkbox" defaultChecked data-toggle="toggle"/>
+                                <span className="login__remember--text">Remember me</span>
+                            </span>
+                            <a className="login__pwChange" href="/change-password">Change password</a>
+                            </form>
+                    </div>)});
+
+            }.bind(this), 1000);
+
+            return (
+                <div className="wrapper wrapper__app App">
+                    {this.state.content}
+                </div>
+
+            );
+        }
+
+
     }
 };
 
