@@ -123,8 +123,6 @@ export class App extends Component {
           *
           */
 
-         console.log('get session details');
-
          $.when(
              $.ajax({
                  url: global.endpoints[global.env].SESSION,
@@ -172,7 +170,6 @@ export class App extends Component {
          ).then(function() {
 
              /* Set the state variables for all the information obtained in every AJAX call */
-
              this.setState({
                  activeSession: this.activeSession,
                  accordion: this.accordion,
@@ -183,11 +180,6 @@ export class App extends Component {
                  routes: this.routes,
                  logoPath: global.paths[global.env].BASE_URL+'images/logo/'+this.defaultCompany+'/logo.gif'
              });
-
-             if (this.state.activeSession) {
-                 /*do stuff */
-             }
-
 
          }.bind(this));
     }

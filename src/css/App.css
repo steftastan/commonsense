@@ -1749,6 +1749,15 @@ th.react-bs-table-expand-cell > div {
   .leftnav__hamburger.fa-close:hover {
     left: 0; } }
 
+.filter {
+  background-color: #1F57A4;
+  margin: 0 5px 0 0;
+  outline: 0;
+  border: 0;
+  border-radius: 15px;
+  padding: 5px;
+  color: #FFF; }
+
 /* ==========================================================================
    CATEGORIES
    ========================================================================== */
@@ -2008,6 +2017,11 @@ th.react-bs-table-expand-cell > div {
 
 .dataTable__row--content:hover {
   background-color: #E2EBEB; }
+
+.dataTable__row--content:hover a,
+.dataTable__row--content:hover a:hover {
+  color: #FFF;
+  text-decoration: none; }
 
 .dataTable__row--header {
   text-transform: uppercase;

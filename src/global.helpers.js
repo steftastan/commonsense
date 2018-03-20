@@ -192,7 +192,7 @@ export function GetWidget(key, widget, filters, cb) {
   * Example input: "Hello this is a test"
   * Example output: "hello-this-is-a-test"
   */
- export function Hyphenize(myStr) {
+ export function Hyphenize(myStr, separator) {
     myStr = myStr.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
     if(myStr.charAt(0) === '-') {
         myStr = myStr.replace('-','/');
@@ -248,14 +248,16 @@ export function ConvertRgbToRgba(color, opacity) {
  *
  * Add more formatting options by adding new cases to the switch.
  */
-
- /* TODO adjust logic tomake generic but idk */
-export function DataFormatter(cell, row, type, cb) {
+export function DataFormatter(cell, row, type) {
 	switch(type) {
 	    case 'currency':
 	        cell = numeral(cell).format('$0,0.00');
 	        break;
+		case 'link':
+			var split = cell.split(' ');
+			var param = split.join('+');
+			cell = '<a href="/commonsense/ap/menu.jsp?supplier='+row['supNum']+'&name='+param+'">'+cell+'</a>';
+			break;
 	}
-
 	return cell;
 }

@@ -11,6 +11,7 @@ import './../../global.languages.js';
 import './../../global.config.env.js';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Localization, DataFormatter} from './../../global.helpers.js';
+import { Filter } from './../../components/widgets/filter.js';
 import Moment from 'moment';
 
 export class DataTable extends Component {
@@ -27,9 +28,6 @@ export class DataTable extends Component {
       this.dataColumns = [];
       this.options = {};
       this.filters = [];
-      this.queryArray = [];
-      this.queryString = '';
-      this.dateAdded = false;
       this.tags;
       this.newPaginationClass = 'dataTable__pagination';
       this.state = {
@@ -133,9 +131,18 @@ export class DataTable extends Component {
 
         if (this.props.filters) {
 
+            var dropdowns;
+
             /* Build filter options*/
             for (var i = 0; i < this.props.filters.length; i++) {
-                this.filters.push(<a key={i} href={this.props.filters[i].params} className="tag" onClick={this.buildQueryString}>{this.props.filters[i].displayName}</a>);
+                //console.log(this.props.filters);
+
+                // // this.filters.push(<a key={i} href={this.props.filters[i].params} className="tag" onClick={this.buildQueryString}></a>);
+                // <select id="companyList" onChange={this.filterTable} className="form__item form__selectCompany">
+                //     this.filters.push(<option key={i} value={this.props.filters[i].params} onClick=>{this.props.filters[i].displayName}</option>);
+                //     {this.companyList}
+                // </select>
+
             }
 
             /* Submit button */
@@ -188,6 +195,7 @@ export class DataTable extends Component {
         var align;
         var filterBy;
         var title__text;
+        var id;
         var columnName;
         var columnName__text;
         var columnType;
@@ -208,25 +216,32 @@ export class DataTable extends Component {
                     for (var i = 0; i < this.props.options.filters.length; i++) {
 
                         /* In case of multiple endpoints, find the configuration that matches the query string passed via the URL */
-                        if (this.dataColumns && (this.props.search.indexOf(this.props.options.filters[i].params) !== -1) && this.props.options.filters[i].customColumns) {
-                            this.dataColumns = this.props.options.filters[i].customColumns;
-                            break;
-                        } else {
-                            /* If something weird happen fall back to the original behavior, and if something even weirder happens, just render everything. */
-                            this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+                        for (var j = 0; j < this.props.options.filters[i].dropdown.length; j++) {
+                            this.props.options.filters[i].dropdown[j];
+                            if (this.props.options.filters[i].dropdown[j].customColumns) {
+                                if (this.dataColumns && (this.props.search.indexOf(this.props.options.filters[i].dropdown[j].params) !== -1) && this.props.options.filters[i].dropdown[j].customColumns) {
+                                    this.dataColumns = this.props.options.filters[i].dropdown[j].customColumns;
+                                    break;
+                                } else {
+                                    /* If something weird happen fall back to the original behavior, and if something even weirder happens, just render everything. */
+                                    this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+                                }
+                            }
                         }
+
                     }
                 }
 
-                /* TODO: */
+                /* TODO: add alignment to be a thing */
                 if (this.dataColumns.length) {
                     tableHeaders = this.dataColumns.map(function(item, key) {
                         filterBy = (this.dataColumns && (this.dataColumns.indexOf(item) !== -1)) ? { type: 'TextFilter' } : {};
                         columnName = item.name || item;
                         columnType = item.type || '';
+                        id = (item.type === 'id' ? item : {});
                         columnWidth = ''+item.width+'' || 50;
                         columnName__text = this.Localization(columnName, this.props.language); // Translated version of the column name.
-                        align = (item.type && item.type === 'currency') ? 'right' : 'left'; // Align contents to the right when the column is formatted as currency.
+                        align = (item.align || 'left'); // Align contents to whatever specified or fall back to left-alignment
 
                         return (
                             <TableHeaderColumn
@@ -257,7 +272,7 @@ export class DataTable extends Component {
                 <div className="wrapper wrapper__content--whiteBox">
                     <h2 className={'dataTable__title'}>{title__text}</h2>
                     <div className="tag__wrapper col-lg-6">
-                        {this.filters}
+                        <Filter filters={this.props.filters} />
                     </div>
                     <BootstrapTable key={this.props.index} data={this.tableData} options={this.options} striped hover pagination tableHeaderClass={'dataTable__row--header'} trClassName={'dataTable__row--content'}>
                         {tableHeaders}

@@ -18,6 +18,12 @@
     background-color: $cool-gray-1;
 }
 
+.dataTable__row--content:hover a,
+.dataTable__row--content:hover a:hover {
+    color: $white;
+    text-decoration: none;
+}
+
 .dataTable__row--header {
     text-transform: uppercase;
     background-color: $blue-90;
