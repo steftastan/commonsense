@@ -1,7 +1,6 @@
 import './../global.config.env.js';
 import $ from 'jquery';
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { BreadCrumbs } from './../components/layout/breadcrumbs.js';
 import { Localization, HandleWebFacingLink, HandlePopupLink, HandleRegularLink} from './../global.helpers.js';
 
@@ -69,7 +68,6 @@ export class Dashboard extends Component {
 
     render() {
         var categoryName__text = (this.state.categoryName ? this.Localization(this.state.categoryName, this.props.language) : '');
-        var breadcrumbs = (this.state.breadcrumbs ? this.state.breadcrumbs : '');
         var linkOnClick = {};
 
         if (this.state.dashboardLinks && this.state.dashboardLinks.length) {

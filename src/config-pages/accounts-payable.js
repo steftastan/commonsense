@@ -1,16 +1,22 @@
 global.AccountsPayable = {
     widgets : [{
-        name: 'toolBox',
+        /***************
+         * Toolbox
+         ***************/
+        name: 'ToolBox',
         endpoint: global.endpoints[global.env].ACCOUNTS_PAYABLE_TOOLBOX
     }, {
-        name: 'dataTable',
+        /***************
+         * Summary
+         ***************/
+        name: 'DataTable',
         title: 'Accounts Payable',
         endpoint: global.endpoints[global.env].ACCOUNTS_PAYABLE,
         bootStrapClass : 'col-lg-6 col-sm-12',
 
         filters: [{
             /*Dropdown group 1*/
-            dropdown: [{
+            group: [{
                 displayName: 'Cheques',
                 params: 'cheques=cheques',
                 customColumns: [
@@ -41,7 +47,7 @@ global.AccountsPayable = {
             }]
         }, {
             /* Dropdown group 2 */
-            dropdown: [{
+            group: [{
                 displayName: 'Balances',
                 params: 'balance=balance'
             }, {
@@ -51,16 +57,13 @@ global.AccountsPayable = {
         }],
 
         defaultColumns: [
-            {name: 'supNum', width: 50, type: 'id'},
-            {name: 'name', width: 60, type: 'link', href: 'http://reddit.com'},
+            {name: 'name', width: 60, type: 'link'},
             {name: 'address', width: 50},
-            {name: 'city', width: 30},
-            {name: 'province', width: 30},
+            {name: 'city', width: 30, align: 'center'},
+            {name: 'province', width: 30, align: 'center'},
             {name: 'telephone', width: 30},
-            {name: 'balance',width: 30, type: 'currency'}],
-
+            {name: 'balance', width: 30, type: 'currency', align: 'right'}],
         bootStrapClass : 'col-12',
-
         options: {
             sizePerPageList: [ {
             text: '25', value: 25
@@ -72,10 +75,27 @@ global.AccountsPayable = {
             sizePerPage: 25
         }
     }, {
-        name: 'dataTable',
+
+        /***************
+         * Cash Disbursement
+         ***************/
+        name: 'DataTable',
         title: 'cashDisbursement',
         bootStrapClass : 'col-lg-6 col-sm-12',
         endpoint: global.endpoints[global.env].ACCOUNTS_PAYABLE_CASH_DISBURSEMENT,
+        filters: [{
+            /* Text filter by Year */
+            group: {
+                displayName: 'Year',
+                params: 'year'
+            }
+        }, {
+            /* Text filter by Week */
+            group: {
+                displayName: 'Week',
+                params: 'week'
+            }
+        }],
         defaultColumns: [{
                 name: 'name',
                 width: 75,
@@ -95,7 +115,7 @@ global.AccountsPayable = {
             }],
         options: {}
     }, {
-        name: 'dataChart',
+        name: 'DataChart',
         title: 'accountsPayableChart',
         endpoint: global.endpoints[global.env].ACCOUNTS_PAYABLE_CASH_DISBURSEMENT,
         bootStrapClass : 'col-lg-6 col-sm-12',
@@ -104,9 +124,62 @@ global.AccountsPayable = {
         calculateBy: 'totalDue',
         label: 'accountsPayableChart',
         buildTable: true,
-        formatTableData: { name: 'totalDue', type: 'currency'}
+        defaultParams: 'balance=withbalance&selAll=All&paymentFlag=payment&displayGraphe=false',
+        filters: [{
+            /*Dropdown group 1*/
+            group: [{
+                displayName: 'Branch/Division',
+                params: 'branch=branch',
+                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+            }, {
+                displayName: 'Salesman',
+                params: 'branch=salesman',
+                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+            }, {
+                displayName: 'Territory',
+                params: 'branch=territory',
+                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+            }, {
+                displayName: 'Customer Type',
+                params: 'branch=type',
+                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+            }, {
+                displayName: 'Ageing Code',
+                params: 'branch=ageing',
+                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+            }]
+        }, {
+            /* Dropdown group 2 */
+            group: [{
+                displayName: 'Total Receivables',
+                params: 'by=total'
+            }, {
+                displayName: 'Receivables by Period',
+                params: 'by=period'
+            }]
+        }, {
+            /* Dropdown group 3 */
+            group: [{
+                displayName: '1',
+                params: 'ageing=1'
+            }, {
+                displayName: '2',
+                params: 'ageing=2'
+            }, {
+                displayName: '3',
+                params: 'ageing=3'
+            }, {
+                displayName: '4',
+                params: 'ageing=4'
+            }, {
+                displayName: '5',
+                params: 'ageing=5'
+            }]
+        }],
+
+        formatTableData: { name: 'totalDue', type: 'currency'},
     }, {
-        name: 'slidingToolbox',
+        name: 'SlidingToolBox',
         endpoint: global.endpoints[global.env].ACCOUNTS_PAYABLE_SLIDING
     }
 ]};

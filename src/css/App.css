@@ -1758,6 +1758,9 @@ th.react-bs-table-expand-cell > div {
   padding: 5px;
   color: #FFF; }
 
+.filter::-webkit-input-placeholder {
+  color: #FFF; }
+
 /* ==========================================================================
    CATEGORIES
    ========================================================================== */

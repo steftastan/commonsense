@@ -310,3 +310,5 @@ export class SubLinks extends Component {
         );
     }
 }
+
+export default ToolBox;

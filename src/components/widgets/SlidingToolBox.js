@@ -95,3 +95,5 @@ export class SlidingToolBox extends Component {
         );
     }
 }
+
+export default SlidingToolBox;

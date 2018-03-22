@@ -3,10 +3,7 @@ import $ from 'jquery';
 import React, { Component } from 'react';
 import { GetWidget, ObjectToArray } from './../global.helpers.js';
 import { BreadCrumbs } from './../components/layout/breadcrumbs.js';
-import { ToolBox } from './../components/widgets/toolbox.js';
-import { DataTable } from './../components/widgets/datatable.js';
-import { DataChart } from './../components/widgets/data-chart.js';
-import { SlidingToolBox } from './../components/widgets/sliding-toolbox.js';
+import { Filter } from './../components/widgets/filter.js';
 
 /** ACCOUNTS PAYABLE
  *
@@ -24,8 +21,8 @@ import { SlidingToolBox } from './../components/widgets/sliding-toolbox.js';
  *** More information on what data can be passed via table options is available at src/components/modules/datatable.js
 
  *
- * NOTE: Regarding filterBy and sortBy, the values provided MUST MATCH the names of the
- * key/columns received from the WS response, or else the association will fail.
+ * NOTE: The link below is a fun read about passing data from children components to their parents:
+ * https://gist.github.com/sebkouba/a5ac75153ef8d8827b98
  *
  */
 
@@ -34,15 +31,24 @@ export class GenericComponent extends Component {
     constructor(props) {
       super(props);
       this.GetWidget = GetWidget;
+      this.filterHandler = this.filterHandler.bind(this);
       this.toolBox = [];
       this.widgets = [];
       this.data = [];
       this.state = {
           widgets: [],
-          loaded: false
+          loaded: false,
+          updatedFilter: false,
+          filters: '',
+          component : null
       };
     }
 
+    /* This function is passed as a prop to the submit button in the filter widget,
+     * so we update the state every time we perform a new search. */
+    filterHandler(param, filterProps) {
+        this.setState({updatedFilter: true, filters: param, component: filterProps.id});
+    }
 
     /**
      * Setting this flag to true allows the component to begin loading the components.
@@ -64,50 +70,58 @@ export class GenericComponent extends Component {
        /**
         * Begin the process of loading widgets after the component has finished mounting.
         */
+        if (prevState.filters !== this.state.filters) {
+            // push the query string to the URL without refreshing
+            this.props.history.push(this.props.location.pathname+this.state.filters);
 
+            if (this.props.options.widgets[this.state.component]) {
+
+                // update the widget whose data we're filtering
+                this.GetWidget(this.state.component, this.props.options.widgets[this.state.component], this.state.filters, function(key, result, widget) {
+                    var componentName = this.state.widgets[this.state.component].type.name || widget.name;
+                    var Component = require('./../components/widgets/'+componentName+'.js').default;
+
+                    this.state.widgets[this.state.component] = (
+                        <Component
+                            index={key}
+                            key={key}
+                            options={widget}
+                            results={result}
+                            search={this.props.location.search}
+                            filters={widget.filters || {}}
+                            filterHandler={this.filterHandler}
+                            language={this.props.language} />);
+
+                }.bind(this));
+            }
+        }
 
        if (prevState.loaded !== this.state.loaded && this.props.options) {
 
-           filters = this.props.location.search ? this.props.location.search : '';
+           /* Include query string if present in URL */
 
            for (var i = 0; i < this.props.options.widgets.length; i++) {
                this.GetWidget(i, this.props.options.widgets[i], filters, function(key, result, widget) {
-
                    if (result) {
-                       /**
-                        * Decide which components to display based on what was established in the options object.
-                        */
 
-                        // if there are widgets of type data table
-                        if (widget.name === 'dataTable') {
-                            this.widgets.push(<DataTable index={key} key={key} options={widget} results={result} search={this.props.location.search} filters={widget.filters || {}} language={this.props.language} />);
-                        }
+                       var componentName = widget.name;
+                       if (componentName) {
+                           var Component = require('./../components/widgets/'+componentName+'.js').default;
 
-                        // if there are widgets of type graphic chart
-                        if (widget.name === 'dataChart') {
-                            this.widgets.push(<DataChart index={key} key={key} options={widget} results={result} language={this.props.language}/>);
-                        }
-
-                        // if there is a toolbox
-                        if (widget.name === 'toolBox') {
-                            this.widgets.push(
-                                <div key={key} className="wrapper wrapper__content--widgetToolBox">
-                                    <ToolBox key={key} options={widget} results={result} language={this.props.language}/>
-                                </div>
-                            );
-                        }
-
-                        // if there are widgets of type sliding tool box
-                        if (widget.name === 'slidingToolbox') {
-                            this.widgets.push(
-                                <SlidingToolBox
-                                    index={key}
-                                    key={key}
-                                    options={widget}
-                                    results={result}
-                                    language={this.props.language} />
-                            );
-                        }
+                           /**
+                           * Decide which components to display based on what was established in the options object.
+                           */
+                           this.widgets.push(
+                               <Component
+                                   index={key}
+                                   key={key}
+                                   options={widget}
+                                   results={result}
+                                   search={this.props.location.search}
+                                   filters={widget.filters || {}}
+                                   filterHandler={this.filterHandler}
+                                   language={this.props.language} />);
+                       }
                     }
 
                 /* Sort widgets by order their in the config object. */

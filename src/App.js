@@ -85,13 +85,13 @@ export class App extends Component {
                     }.bind(this),
                     error: function(xhr, status, err) {
                         console.error(xhr, status, err.toString());
-                    }.bind(this)
+                    }
                 });
 
     		}.bind(this),
     		error: function(xhr, status, err) {
     			console.error(xhr, status, err.toString());
-    		}.bind(this)
+    		}
        });
     }
 
@@ -137,7 +137,7 @@ export class App extends Component {
                  }.bind(this),
                  error: function(xhr, status, err) {
                      console.error(xhr, status, err.toString());
-                 }.bind(this)
+                 }
              }),
 
              $.ajax({
@@ -152,7 +152,7 @@ export class App extends Component {
                  }.bind(this),
                  error: function(xhr, status, err) {
                      console.error(xhr, status, err.toString());
-                 }.bind(this)
+                 }
              }),
 
              $.ajax({
@@ -164,7 +164,7 @@ export class App extends Component {
                  }.bind(this),
                  error: function(xhr, status, err) {
                      console.error(xhr, status, err.toString());
-                 }.bind(this)
+                 }
              })
 
          ).then(function() {
@@ -185,7 +185,7 @@ export class App extends Component {
     }
 
     render() {
-
+        var routes;
         var componentName;
         var staticPages = [
             {component: ChangePassword, path: 'change-password'}
@@ -195,17 +195,18 @@ export class App extends Component {
          * The Dashboard is code 7 in the links list. Update dashboard path to this:
          * servlet/com.sia.commonsense.shared.LoginServlet?code=7
          */
-        staticPages.map(function(comp, key) {
+        routes = staticPages.map(function(comp, key) {
             this.routesToComponents.push(<Route
                 exact
                 key={key}
                 path={global.paths[global.env].BASE_URL+comp.path}
                 component={comp.component} />);
+            return this.routesToComponents;
         }, this);
 
         if (this.state.routes && this.state.routes.length) {
 
-            this.state.routes.map(function(item, key) {
+            routes = this.state.routes.map(function(item, key) {
 
                 /* Build a route to render the Personal Preferences page for a dashboard link with no param. */
                  this.routesToComponents.push(
@@ -235,7 +236,7 @@ export class App extends Component {
 
                 if (item.sublinks && item.sublinks.length) {
 
-                    item.sublinks.map(function(comp, key) {
+                    routes = item.sublinks.map(function(comp, key) {
 
                         var options = {};
                         var page = [];
@@ -307,7 +308,6 @@ export class App extends Component {
         }
 
         if (this.state.activeSession) {
-            console.log('user is logged in');
             return (
                 <div className="wrapper wrapper__app App">
                     <Accordion

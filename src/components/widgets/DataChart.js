@@ -6,6 +6,7 @@
 import React, { Component } from 'react';
 import './../../global.config.env.js';
 import { Localization, ConvertRgbToRgba, DataFormatter } from './../../global.helpers.js';
+import { Filter } from './../../components/widgets/filter.js';
 import RC2 from 'react-chartjs2';
 
 export class DataChart extends Component {
@@ -77,10 +78,43 @@ export class DataChart extends Component {
         var borderColor = [];
         var total = 0;
 
+        if (!this.props.options.filters) {
+            /* If the configuration object doesn't specify multiple endpoints, fall back to the columns specified under defaultColumns */
+            //this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+        } else {
+            for (var i = 0; i < this.props.options.filters.length; i++) {
+
+                /* In case of multiple endpoints, find the configuration that matches the query string passed via the URL */
+                if (this.props.options.filters[i].group.length) {
+                    for (var j = 0; j < this.props.options.filters[i].group.length; j++) {
+                        if (this.props.options.filters[i].group[j] && this.props.options.filters[i].group[j].customColumns) {
+                            // console.log('a');
+                        //     /* Build the column set with the custom columns each specific filter has */
+                        //     if (this.dataColumns && (this.props.search.indexOf(this.props.options.filters[i].group[j].params) !== -1) && this.props.options.filters[i].group[j].customColumns) {
+                        //         this.dataColumns = this.props.options.filters[i].group[j].customColumns;
+                        //         break;
+                        //     } else {
+                        //         /* If something weird happen fall back to the original behavior, and if something even weirder happens, just render everything. */
+                        //         this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+                        //     }
+                        } else {
+                            // console.log('b');
+                        //     /* Use the default columns, and if that isn't available, render all columns in the data set */
+                        //     this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+                        }
+                    }
+                } else {
+                    /* For all others where filters are not multiple choice */
+                    //this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+                }
+
+            }
+        }
+
+
         if (chartData) {
 
             for (var key in chartData.dataset) {
-
                 /* Obtain percentage */
                 total = (chartData.dataset[key][this.props.options.calculateBy] / chartData.total.total * 100);
 
@@ -150,6 +184,10 @@ export class DataChart extends Component {
         }
     }
 
+    componentDidMount() {
+
+    }
+
     render() {
         var title__text = this.Localization(this.props.options.title, this.props.language);
         var bootStrapClass = this.props.options.buildTable ? 'col-lg-6' : 'col-12';
@@ -158,6 +196,7 @@ export class DataChart extends Component {
             <div key={this.props.theKey} className={this.props.options.bootStrapClass}>
                 <div className="wrapper wrapper__content--whiteBox">
                     <h2 className={'dataTable__title'}>{title__text}</h2>
+                    <Filter filters={this.props.options.filters} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
                     <div className={bootStrapClass}>
                         <RC2 data={this.data} type={this.data.type} />
                     </div>
@@ -167,3 +206,5 @@ export class DataChart extends Component {
         );
     }
 }
+
+export default DataChart;

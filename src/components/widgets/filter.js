@@ -3,13 +3,13 @@
 import React, { Component } from 'react';
 import { Localization } from './../../global.helpers.js';
 import Moment from 'moment';
+import $ from 'jquery';
 
 export class Filter extends Component {
 
     constructor(props) {
       super(props);
       this.Localization = Localization;
-      this.buildQueryString = this.buildQueryString.bind(this);
       this.filterTable = this.filterTable.bind(this);
       this.currentWeek = '&year='+Moment().year()+'&week='+Moment().week();
       this.companyList = [];
@@ -17,48 +17,86 @@ export class Filter extends Component {
       this.submitButton = [];
       this.queryArray = [];
       this.queryString = '';
+      this.state = {
+          query: ''
+      },
       this.dateAdded = false;
+      this.defaultParamsAdded = false;
     }
 
-    buildQueryString(e) {
 
-        /* Append year and week parameters to query array  */
-        if (!this.dateAdded) {
-            this.queryArray.push(this.currentWeek);
-            this.dateAdded = true;
+    filterTable(e) {
+        e.preventDefault();
+        var params = [];
+
+        /* Append defaultParams (query string params applicable to all searches) if available  */
+        if (!this.defaultParamsAdded && this.props.defaultParams) {
+            this.queryArray.push(this.props.defaultParams);
+            this.defaultParamsAdded = true;
         }
 
-        this.queryArray.push(e.target.value);
+        $('#filter--'+this.props.id+' .filter').each(function() {
+            if ($(this).attr("name")) {
+                params.push($(this).attr("name")+'='+$(this).val());
+            } else {
+                params.push($(this).val());
+            }
+        });
+
+         this.queryArray = this.queryArray.concat(params);
 
         /* Build the query string */
         if (this.queryArray.length) {
             this.queryString = this.queryArray.join('&');
-        }
-    }
+            this.queryArray = [];
 
-    filterTable(e) {
-        e.preventDefault();
-        window.location.href = '?'+this.queryString;
+            console.log(this.props);
+            this.props.filterHandler('?'+this.queryString, this.props);
+
+        }
     }
 
     componentWillMount() {
         if (this.props.filters) {
             var submit__text = this.Localization('submit', this.props.language);
             var dropdowns;
+            var value;
             var options = [];
 
             /* Build filter options*/
             for (var i = 0; i < this.props.filters.length; i++) {
-                this.filter.push(
-                    <select key={i} id={"dropdown"+i} defaultValue={this.selectedValue} onChange={this.buildQueryString} className="filter">
-                        <Options key={i} options={this.props.filters[i].dropdown}/>
-                    </select>
-                );
+
+                // If single-choice selection, such as textboxes etc.
+                if (this.props.filters[i].group && !(this.props.filters[i].group instanceof Array)) {
+
+                    switch(this.props.filters[i].group.params) {
+                        case 'year':
+                            value = Moment().year();
+                            break;
+                        case 'week':
+                            value = Moment().week();
+                            break;
+                    }
+                    this.filter.push(
+                        <input className="filter"
+                            key={i} type="text"
+                            placeholder={this.props.filters[i].group.displayName}
+                            defaultValue={value}
+                            name={this.props.filters[i].group.params}
+                            params={this.props.filters[i].group.params}/>);
+                } else {
+                    // Handle multiple choice options
+                    this.filter.push(
+                        <select key={i} id={i} defaultValue={this.selectedValue} className="filter dropdown">
+                            <Options key={i} options={this.props.filters[i].group}/>
+                        </select>
+                    );
+                }
             }
 
             /* Submit button */
             if (this.props.filters.length) {
-                this.submitButton = (<a className="tag tag--submit" onClick={this.filterTable}>{submit__text}</a>);
+                this.submitButton = (<input type="submit" className="tag tag--submit" value={submit__text} onClick={this.filterTable}/>);
             }
 
             this.setState({
@@ -78,9 +116,11 @@ export class Filter extends Component {
         }
 
         return(
-            <div>
-                {this.filter}
-                {this.submitButton}
+            <div id={'filter--'+this.props.id} className="tag__wrapper col-12">
+                <form method="GET">
+                    {this.filter}
+                    {this.submitButton}
+                </form>
             </div>
         );
     }
@@ -90,7 +130,6 @@ export class Options extends Component {
     render() {
         var options = [];
         for (var j in this.props.options) {
-            if (j == 0) options.push(<option key={j} value={'aaa'}>Select an filter</option>);
             options.push(<option key={j+1} value={this.props.options[j].params}>{this.props.options[j].displayName}</option>);
         }
         return options;

@@ -20,10 +20,8 @@ export class DataTable extends Component {
       super(props);
       this.Localization = Localization;
       this.DataFormatter = DataFormatter;
-      this.buildQueryString = this.buildQueryString.bind(this);
-      this.filterTable = this.filterTable.bind(this);
+      // this.handler = this.handler.bind(this);
       this.pagination = 'pagination';
-      this.currentWeek = '&year='+Moment().year()+'&week='+Moment().week();
       this.tableData = [];
       this.dataColumns = [];
       this.options = {};
@@ -32,55 +30,16 @@ export class DataTable extends Component {
       this.newPaginationClass = 'dataTable__pagination';
       this.state = {
           all: false,
-          filters: []
+          filters: [],
+          updated: false
       };
     }
-
-    buildQueryString(e) {
-        e.preventDefault();
-        var removeIndex;
-
-        /* Remove highlighted effect when user begins to pick different search criteria */
-        if (this.tags && this.tags.length) {
-            for (var key = 0; key < this.tags.length; key++) {
-                if (this.tags[key].classList.contains('tag--highlighted')) {
-                    this.tags[key].classList.remove('tag--highlighted');
-                }
-            }
-        }
-
-        /* Append year and week parameters to query array  */
-        if (!this.dateAdded) {
-            this.queryArray.push(this.currentWeek);
-            this.dateAdded = true;
-        }
-
-        if (!e.target.classList.contains('tag--active')) {
-
-            /* Add selected criteria to array, toggle on the corresponding element */
-            this.queryArray.push(e.target.getAttribute('href'));
-            e.target.classList.add('tag--active');
-
-        } else {
-
-            /* Remove the selected filter from the array, toggle off the corresponding element */
-            if (this.queryArray.indexOf(e.target.getAttribute('href')) !== -1) {
-                removeIndex =this.queryArray.indexOf(e.target.getAttribute('href'));
-                this.queryArray.splice(removeIndex);
-                e.target.classList.remove('tag--active');
-            }
-        }
-
-        /* Build the query string */
-        if (this.queryArray.length) {
-            this.queryString = this.queryArray.join('&');
-        }
-    }
-
-    filterTable(e) {
-        e.preventDefault();
-        window.location.href = '?'+this.queryString;
-    }
+    //
+    // handler(e) {
+    //     e.preventDefault();
+    //     console.log('lmao');
+    //     this.setState({updated:true});
+    // }
 
     componentWillMount() {
         var submit__text = this.Localization('submit', this.props.language);
@@ -129,32 +88,6 @@ export class DataTable extends Component {
             }
         }
 
-        if (this.props.filters) {
-
-            var dropdowns;
-
-            /* Build filter options*/
-            for (var i = 0; i < this.props.filters.length; i++) {
-                //console.log(this.props.filters);
-
-                // // this.filters.push(<a key={i} href={this.props.filters[i].params} className="tag" onClick={this.buildQueryString}></a>);
-                // <select id="companyList" onChange={this.filterTable} className="form__item form__selectCompany">
-                //     this.filters.push(<option key={i} value={this.props.filters[i].params} onClick=>{this.props.filters[i].displayName}</option>);
-                //     {this.companyList}
-                // </select>
-
-            }
-
-            /* Submit button */
-            if (this.filters.length) {
-                this.filters.push(<a key={key} className="tag tag--submit" onClick={this.filterTable}>{submit__text}</a>);
-            }
-
-            this.setState({
-                all: true,
-                filters: this.filters
-            });
-        }
     }
 
     componentDidMount() {
@@ -178,16 +111,21 @@ export class DataTable extends Component {
              }
          }
 
-         /* Highlight the filters that were selected after page load */
-         this.tags = document.getElementsByClassName('tag');
+    }
 
-         for (var key = 0; key < this.tags.length; key++) {
-             var activeTags =  this.tags[key] ? this.tags[key].getAttribute("href") : '';
-             if (window.location.href.includes(activeTags)) {
-                 this.tags[key].classList.add('tag--highlighted');
-             }
-         }
+    componentDidUpdate(prevProps, prevState) {
+        var data = {};
+        var result = {};
+        var filters;
 
+        /**
+        * Begin the process of loading widgets after the component has finished mounting.
+        */
+
+        // console.log('omg');
+        if (this.props.search) {
+            console.log('updateddddd');
+        }
     }
 
     render() {
@@ -209,37 +147,43 @@ export class DataTable extends Component {
              * The fallback behavior is to display all columns.
              */
             if (this.props.options) {
-                if (!this.props.options.filters) {
-                    /* If the configuration object doesn't specify multiple endpoints, fall back to the columns specified under defaultColumns */
+
+                if (!this.props.options.filters || !this.props.search) {
+                    /* If the configuration object doesn't specify multiple endpoints, or if no parameters are on the URL */
                     this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
                 } else {
                     for (var i = 0; i < this.props.options.filters.length; i++) {
 
-                        /* In case of multiple endpoints, find the configuration that matches the query string passed via the URL */
-                        for (var j = 0; j < this.props.options.filters[i].dropdown.length; j++) {
-                            this.props.options.filters[i].dropdown[j];
-                            if (this.props.options.filters[i].dropdown[j].customColumns) {
-                                if (this.dataColumns && (this.props.search.indexOf(this.props.options.filters[i].dropdown[j].params) !== -1) && this.props.options.filters[i].dropdown[j].customColumns) {
-                                    this.dataColumns = this.props.options.filters[i].dropdown[j].customColumns;
-                                    break;
-                                } else {
-                                    /* If something weird happen fall back to the original behavior, and if something even weirder happens, just render everything. */
-                                    this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+                        /* In case of dropdown */
+                        if (this.props.options.filters[i].group instanceof Array && this.props.options.filters[i].group.length) {
+                            for (var j = 0; j < this.props.options.filters[i].group.length; j++) {
+                                if (this.props.options.filters[i].group[j] && this.props.options.filters[i].group[j].customColumns) {
+
+                                    /* Build data table with the custom columns for the selected filter */
+                                    if (this.props.search.indexOf(this.props.options.filters[i].group[j].params) !== -1) {
+                                        this.dataColumns = this.props.options.filters[i].group[j].customColumns;
+                                        break;
+                                    } else {
+                                        /* The query string doesn't match anything in the config, render default columns to prevent errors */
+                                        this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+                                    }
                                 }
                             }
+                        } else {
+                            /* For all others where filters are not multiple choice, and custom columns are not applicable */
+                            this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
                         }
 
                     }
                 }
 
-                /* TODO: add alignment to be a thing */
                 if (this.dataColumns.length) {
                     tableHeaders = this.dataColumns.map(function(item, key) {
                         filterBy = (this.dataColumns && (this.dataColumns.indexOf(item) !== -1)) ? { type: 'TextFilter' } : {};
                         columnName = item.name || item;
                         columnType = item.type || '';
                         id = (item.type === 'id' ? item : {});
-                        columnWidth = ''+item.width+'' || 50;
+                        columnWidth = ''+item.width+'' || 50; // Column width, or defaults to 50, whatever that means.
                         columnName__text = this.Localization(columnName, this.props.language); // Translated version of the column name.
                         align = (item.align || 'left'); // Align contents to whatever specified or fall back to left-alignment
 
@@ -264,16 +208,13 @@ export class DataTable extends Component {
         }
 
         if (this.tableData && this.dataColumns) {
-
             /*Translated version of title*/
             title__text = this.Localization(this.props.options.title, this.props.language);
 
             var table = (
                 <div className="wrapper wrapper__content--whiteBox">
                     <h2 className={'dataTable__title'}>{title__text}</h2>
-                    <div className="tag__wrapper col-lg-6">
-                        <Filter filters={this.props.filters} />
-                    </div>
+                    <Filter filters={this.props.filters} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
                     <BootstrapTable key={this.props.index} data={this.tableData} options={this.options} striped hover pagination tableHeaderClass={'dataTable__row--header'} trClassName={'dataTable__row--content'}>
                         {tableHeaders}
                     </BootstrapTable>
@@ -283,10 +224,12 @@ export class DataTable extends Component {
         }
 
         return (
-            <div key={this.props.index} className={this.props.options.bootStrapClass}>
+            <div key={this.props.index} id={this.props.index} className={this.props.options.bootStrapClass}>
                 {table}
             </div>
 
         );
     }
 }
+
+export default DataTable;
