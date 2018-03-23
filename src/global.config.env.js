@@ -3,8 +3,7 @@
 * ******************************************************************************
 *
 * ENVIRONMENT FLAGS
-* Before running npm run build, don't forget to switch this variable to prod,
-* so the compressed version of the site is configured to the correct routes and endpoints.
+* Don't forget to switch this variable to prod before running npm run build.
 *
 * ******************************************************************************
 * ******************************************************************************

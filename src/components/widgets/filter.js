@@ -49,10 +49,7 @@ export class Filter extends Component {
         if (this.queryArray.length) {
             this.queryString = this.queryArray.join('&');
             this.queryArray = [];
-
-            console.log(this.props);
-            this.props.filterHandler('?'+this.queryString, this.props);
-
+            this.props.filterHandler('?'+this.queryString, this.props.id);
         }
     }
 

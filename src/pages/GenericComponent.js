@@ -46,8 +46,8 @@ export class GenericComponent extends Component {
 
     /* This function is passed as a prop to the submit button in the filter widget,
      * so we update the state every time we perform a new search. */
-    filterHandler(param, filterProps) {
-        this.setState({updatedFilter: true, filters: param, component: filterProps.id});
+    filterHandler(param, comp) {
+        this.setState({filters: param, component: comp});
     }
 
     /**
@@ -68,42 +68,46 @@ export class GenericComponent extends Component {
        var filters;
 
        /**
-        * Begin the process of loading widgets after the component has finished mounting.
+        * Update the corresponding widget
         */
         if (prevState.filters !== this.state.filters) {
-            // push the query string to the URL without refreshing
-            this.props.history.push(this.props.location.pathname+this.state.filters);
 
             if (this.props.options.widgets[this.state.component]) {
+                // push the query string to the URL without refreshing
+                this.props.history.push(this.props.location.pathname+this.state.filters);
 
                 // update the widget whose data we're filtering
                 this.GetWidget(this.state.component, this.props.options.widgets[this.state.component], this.state.filters, function(key, result, widget) {
-                    var componentName = this.state.widgets[this.state.component].type.name || widget.name;
+                    var tempWidgets = [];
+                    var newWidget = {};
+                    var componentName = widget.name;
                     var Component = require('./../components/widgets/'+componentName+'.js').default;
 
-                    this.state.widgets[this.state.component] = (
-                        <Component
-                            index={key}
-                            key={key}
-                            options={widget}
-                            results={result}
-                            search={this.props.location.search}
-                            filters={widget.filters || {}}
-                            filterHandler={this.filterHandler}
-                            language={this.props.language} />);
+                    newWidget = (<Component
+                        index={key}
+                        key={key}
+                        options={widget}
+                        results={result}
+                        search={this.state.filters}
+                        filters={widget.filters || {}}
+                        filterHandler={this.filterHandler}
+                        language={this.props.language} />);
+
+                    tempWidgets = [...this.state.widgets];
+                    tempWidgets[this.state.component] = {...newWidget, key: this.state.component.toString()};
+
+                    this.setState({updatedFilter:true, widgets: tempWidgets});
 
                 }.bind(this));
             }
         }
 
-       if (prevState.loaded !== this.state.loaded && this.props.options) {
+       if (prevState.loaded !== this.state.loaded) {
 
            /* Include query string if present in URL */
-
            for (var i = 0; i < this.props.options.widgets.length; i++) {
                this.GetWidget(i, this.props.options.widgets[i], filters, function(key, result, widget) {
                    if (result) {
-
                        var componentName = widget.name;
                        if (componentName) {
                            var Component = require('./../components/widgets/'+componentName+'.js').default;

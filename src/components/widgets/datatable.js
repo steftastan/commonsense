@@ -20,7 +20,6 @@ export class DataTable extends Component {
       super(props);
       this.Localization = Localization;
       this.DataFormatter = DataFormatter;
-      // this.handler = this.handler.bind(this);
       this.pagination = 'pagination';
       this.tableData = [];
       this.dataColumns = [];
@@ -34,12 +33,6 @@ export class DataTable extends Component {
           updated: false
       };
     }
-    //
-    // handler(e) {
-    //     e.preventDefault();
-    //     console.log('lmao');
-    //     this.setState({updated:true});
-    // }
 
     componentWillMount() {
         var submit__text = this.Localization('submit', this.props.language);
@@ -122,9 +115,14 @@ export class DataTable extends Component {
         * Begin the process of loading widgets after the component has finished mounting.
         */
 
+        if (prevProps.results !== this.props.results) {
+            this.setState({ updated: true });
+            this.tableData = this.props.results;
+        }
+
         // console.log('omg');
         if (this.props.search) {
-            console.log('updateddddd');
+            this.tableData = this.props.results;
         }
     }
 
@@ -139,6 +137,7 @@ export class DataTable extends Component {
         var columnType;
         var columnWidth;
 
+        console.log(this.props);
         if (this.tableData && this.tableData.length) {
 
             /**
@@ -201,7 +200,6 @@ export class DataTable extends Component {
                                     {columnName__text}
                             </TableHeaderColumn>
                         );
-
                     }, this);
                 }
             }
