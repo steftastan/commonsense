@@ -67,11 +67,11 @@ global.AccountsPayable = {
         options: {
             sizePerPageList: [ {
             text: '25', value: 25
-            }, {
+        }, {
             text: '50', value: 50
-            }, {
+        }, {
             text: '500', value: 500
-            }],
+        }],
             sizePerPage: 25
         }
     }, {
@@ -125,58 +125,6 @@ global.AccountsPayable = {
         label: 'accountsPayableChart',
         buildTable: true,
         defaultParams: 'balance=withbalance&selAll=All&paymentFlag=payment&displayGraphe=false',
-        filters: [{
-            /*Dropdown group 1*/
-            group: [{
-                displayName: 'Branch/Division',
-                params: 'branch=branch',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
-            }, {
-                displayName: 'Salesman',
-                params: 'branch=salesman',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
-            }, {
-                displayName: 'Territory',
-                params: 'branch=territory',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
-            }, {
-                displayName: 'Customer Type',
-                params: 'branch=type',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
-            }, {
-                displayName: 'Ageing Code',
-                params: 'branch=ageing',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
-            }]
-        }, {
-            /* Dropdown group 2 */
-            group: [{
-                displayName: 'Total Receivables',
-                params: 'by=total'
-            }, {
-                displayName: 'Receivables by Period',
-                params: 'by=period'
-            }]
-        }, {
-            /* Dropdown group 3 */
-            group: [{
-                displayName: '1',
-                params: 'ageing=1'
-            }, {
-                displayName: '2',
-                params: 'ageing=2'
-            }, {
-                displayName: '3',
-                params: 'ageing=3'
-            }, {
-                displayName: '4',
-                params: 'ageing=4'
-            }, {
-                displayName: '5',
-                params: 'ageing=5'
-            }]
-        }],
-
         formatTableData: { name: 'totalDue', type: 'currency'},
     }, {
         name: 'SlidingToolBox',

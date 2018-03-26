@@ -69,9 +69,6 @@ export class DataTable extends Component {
                     this.options[key] = this.props.options.options[key];
                 }
 
-                /* TODO over write tableData maybe in component will mount depending if there are filters up in the URL... so bring in all data Android
-                filter results over here */
-
                 /* Append "All" option as another default item in pagination count. */
                 if (key === 'sizePerPageList' && this.state.all === false) {
                     this.options.sizePerPageList[this.options.sizePerPageList.length] = {
@@ -114,14 +111,8 @@ export class DataTable extends Component {
         /**
         * Begin the process of loading widgets after the component has finished mounting.
         */
-
         if (prevProps.results !== this.props.results) {
             this.setState({ updated: true });
-            this.tableData = this.props.results;
-        }
-
-        // console.log('omg');
-        if (this.props.search) {
             this.tableData = this.props.results;
         }
     }
@@ -137,7 +128,6 @@ export class DataTable extends Component {
         var columnType;
         var columnWidth;
 
-        console.log(this.props);
         if (this.tableData && this.tableData.length) {
 
             /**
@@ -155,7 +145,10 @@ export class DataTable extends Component {
 
                         /* In case of dropdown */
                         if (this.props.options.filters[i].group instanceof Array && this.props.options.filters[i].group.length) {
+
                             for (var j = 0; j < this.props.options.filters[i].group.length; j++) {
+
+                                /* if there are custom columns */
                                 if (this.props.options.filters[i].group[j] && this.props.options.filters[i].group[j].customColumns) {
 
                                     /* Build data table with the custom columns for the selected filter */
@@ -172,7 +165,6 @@ export class DataTable extends Component {
                             /* For all others where filters are not multiple choice, and custom columns are not applicable */
                             this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
                         }
-
                     }
                 }
 

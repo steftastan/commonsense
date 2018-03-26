@@ -94,7 +94,7 @@
                 },
                 {
                     "name":"Accounts Receivable",
-                    "url":"com.sia.commonsense.arageing.servlets.ARServlet",
+                    "url":"commonsense/react/accounts-receivable",
                     "icon":"flow",
                     "color":"green"
                 },

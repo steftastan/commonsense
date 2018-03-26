@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import './../../global.config.env.js';
 import { Localization, ConvertRgbToRgba, DataFormatter } from './../../global.helpers.js';
 import { Filter } from './../../components/widgets/filter.js';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import RC2 from 'react-chartjs2';
 
 export class DataChart extends Component {
@@ -19,10 +20,15 @@ export class DataChart extends Component {
         this.processData = this.processData.bind(this);
         this.colors = global.colors;
         this.myChart = null;
+        this.rawData = {};
         this.data = {};
         this.buildTable = [];
         this.tableRows = [];
-
+        this.state = {
+            all: false,
+            filters: [],
+            updated: false
+        };
     }
 
     /*
@@ -30,15 +36,18 @@ export class DataChart extends Component {
      * Reference to this solution: https://stackoverflow.com/questions/21874436/summarize-and-group-json-object-in-jquery
      */
     processData() {
-        var rawData = this.props.results;
+        this.rawData = this.props.results;
+
         var aggregateBy = this.props.options.aggregateBy;
         var calculateBy = this.props.options.calculateBy;
         var output = {};
         var parseNumber = 0;
 
-        if (rawData && aggregateBy && calculateBy) {
+        console.log(this.rawData);
+
+        if (this.rawData && aggregateBy && calculateBy) {
             try {
-                output = rawData.reduce(function(out, curr) {
+                output = this.rawData.reduce(function(out, curr) {
 
                     parseNumber = (!isNaN(curr[calculateBy]) ? Math.floor(curr[calculateBy]) : Math.floor(parseInt(curr[calculateBy].replace(/\s/g, "").replace(",", ""))));
 
@@ -68,6 +77,7 @@ export class DataChart extends Component {
      * Build data object for the chart.
      */
     componentWillMount() {
+
         var chartData = this.processData(); // The new object with the aggregated data.
         var type = this.props.options.type || 'pie'; //Default to pie chart if no type was specified.
         var chartLabel = this.Localization(this.props.options.label, this.props.language) || '';
@@ -77,42 +87,11 @@ export class DataChart extends Component {
         var backgroundColor = [];
         var borderColor = [];
         var total = 0;
-
-        if (!this.props.options.filters) {
-            /* If the configuration object doesn't specify multiple endpoints, fall back to the columns specified under defaultColumns */
-            //this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
-        } else {
-            for (var i = 0; i < this.props.options.filters.length; i++) {
-
-                /* In case of multiple endpoints, find the configuration that matches the query string passed via the URL */
-                if (this.props.options.filters[i].group.length) {
-                    for (var j = 0; j < this.props.options.filters[i].group.length; j++) {
-                        if (this.props.options.filters[i].group[j] && this.props.options.filters[i].group[j].customColumns) {
-                            // console.log('a');
-                        //     /* Build the column set with the custom columns each specific filter has */
-                        //     if (this.dataColumns && (this.props.search.indexOf(this.props.options.filters[i].group[j].params) !== -1) && this.props.options.filters[i].group[j].customColumns) {
-                        //         this.dataColumns = this.props.options.filters[i].group[j].customColumns;
-                        //         break;
-                        //     } else {
-                        //         /* If something weird happen fall back to the original behavior, and if something even weirder happens, just render everything. */
-                        //         this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
-                        //     }
-                        } else {
-                            // console.log('b');
-                        //     /* Use the default columns, and if that isn't available, render all columns in the data set */
-                        //     this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
-                        }
-                    }
-                } else {
-                    /* For all others where filters are not multiple choice */
-                    //this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
-                }
-
-            }
-        }
-
+        var tableHeaders;
 
         if (chartData) {
+
+            console.log(chartData);
 
             for (var key in chartData.dataset) {
                 /* Obtain percentage */
@@ -123,43 +102,82 @@ export class DataChart extends Component {
 
                 if (buildTable) {
 
-                    /* Use the format type specified in config file or treat currency as default. */
-                    var formatType = (this.props.options.formatTableData ? this.props.options.formatTableData.type : 'currency');
+                    console.log(key);
 
-                    /* Looks for the element to convert in the DataSet based on the data passed in the formatTableData, if available.
-                     * If that isn't available, it defaults to using the column specified in calculateBy.
-                     */
-                    var formatData = (chartData.dataset[key][this.props.options.formatTableData] ? chartData.dataset[key][this.props.options.formatTableData.name] : chartData.dataset[key][this.props.options.calculateBy]);
-                    var formattedCell = this.DataFormatter(formatData, null, formatType);
+                    // // tableHeaders = chartData.map(function(item, key) {
+                    //     filterBy = (this.dataColumns && (this.dataColumns.indexOf(item) !== -1)) ? { type: 'TextFilter' } : {};
+                    //     columnName = item.name || item;
+                    //     columnType = item.type || '';
+                    //     id = (item.type === 'id' ? item : {});
+                    //     columnWidth = ''+item.width+'' || 50; // Column width, or defaults to 50, whatever that means.
+                    //     columnName__text = this.Localization(columnName, this.props.language); // Translated version of the column name.
+                    //     align = (item.align || 'left'); // Align contents to whatever specified or fall back to left-alignment
+                    //
+                    //     return (
+                    //         <TableHeaderColumn
+                    //             key={key}
+                    //             width={columnWidth}
+                    //             isKey={key === 0 ? true : false}
+                    //             dataAlign={align}
+                    //             dataFormat={this.DataFormatter}
+                    //             formatExtraData={columnType}
+                    //             filter={filterBy}
+                    //             dataSort={true}
+                    //             dataField={columnName}>
+                    //                 {columnName__text}
+                    //         </TableHeaderColumn>
+                    //     );
+                    // // }, this);
+                    //
+                    // this.buildTable = (
+                    //     <BootstrapTable
+                    //         key={this.props.index}
+                    //         data={this.tableData}
+                    //         options={this.options}
+                    //         striped hover pagination
+                    //         tableHeaderClass={'dataTable__row--header'}
+                    //         trClassName={'dataTable__row--content'}>
+                    //             {tableHeaders}
+                    //     </BootstrapTable>);
 
-                    this.tableRows.push(
-                        <tr className="dataChart__row" key={key}>
-                            <td className="dataChart__cell">{chartData.dataset[key].dataName}</td>
-                            <td className="dataChart__cell">{formattedCell}</td>
-                            <td className="dataChart__cell">{total.toFixed(2)}%</td>
-                        </tr>
-                    );
+
+                    // /* Use the format type specified in config file or treat currency as default. */
+                    // var formatType = (this.props.options.formatTableData ? this.props.options.formatTableData.type : 'currency');
+                    //
+                    // /* Looks for the element to convert in the DataSet based on the data passed in the formatTableData, if available.
+                    //  * If that isn't available, it defaults to using the column specified in calculateBy.
+                    //  */
+                    // var formatData = (chartData.dataset[key][this.props.options.formatTableData] ? chartData.dataset[key][this.props.options.formatTableData.name] : chartData.dataset[key][this.props.options.calculateBy]);
+                    // var formattedCell = this.DataFormatter(formatData, null, formatType);
+                    //
+                    // this.tableRows.push(
+                    //     <tr className="dataChart__row" key={key}>
+                    //         <td className="dataChart__cell">{chartData.dataset[key].dataName}</td>
+                    //         <td className="dataChart__cell">{formattedCell}</td>
+                    //         <td className="dataChart__cell">{total.toFixed(2)}%</td>
+                    //     </tr>
+                    // );
                 }
             }
 
-            if (buildTable) {
-                this.buildTable.push(
-                    <div key={this.props.index} className="col-lg-6">
-                        <table key={this.props.index} className="dataChart__table">
-                            <thead className="dataChart__heading">
-                                <tr>
-                                    <th className="dataChart__cell--heading">{this.props.options.aggregateBy}</th>
-                                    <th className="dataChart__cell--heading">{this.props.options.calculateBy}</th>
-                                    <th className="dataChart__cell--heading">%</th>
-                                </tr>
-                            </thead>
-                            <tbody className="dataChart__tableBody">
-                                {this.tableRows}
-                            </tbody>
-                        </table>
-                    </div>
-                );
-            }
+            // if (buildTable) {
+            //     this.buildTable.push(
+            //         <div key={this.props.index} className="col-lg-6">
+            //             <table key={this.props.index} className="dataChart__table">
+            //                 <thead className="dataChart__heading">
+            //                     <tr>
+            //                         <th className="dataChart__cell--heading">{this.props.options.aggregateBy}</th>
+            //                         <th className="dataChart__cell--heading">{this.props.options.calculateBy}</th>
+            //                         <th className="dataChart__cell--heading">%</th>
+            //                     </tr>
+            //                 </thead>
+            //                 <tbody className="dataChart__tableBody">
+            //                     {this.tableRows}
+            //                 </tbody>
+            //             </table>
+            //         </div>
+            //     );
+            // }
 
             /* Build arrays of cosmetic details*/
             if (labels.length) {
@@ -184,8 +202,18 @@ export class DataChart extends Component {
         }
     }
 
-    componentDidMount() {
+    componentDidUpdate(prevProps, prevState) {
+        var data = {};
+        var result = {};
+        var filters;
 
+        /**
+        * Begin the process of loading widgets after the component has finished mounting.
+        */
+        if (prevProps.results !== this.props.results) {
+            this.setState({ updated: true });
+            this.rawData = this.props.results;
+        }
     }
 
     render() {
