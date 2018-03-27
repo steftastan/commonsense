@@ -93,18 +93,11 @@ export function HandleRegularLink(link) {
 export function GetWidget(key, widget, filters, cb) {
 	var endPoint = (widget.endpoint ? widget.endpoint : '')+(filters ? filters : '');
 
-	 /* Polyfill because IE does not support Object.values function */
-  	 const valuesPolyfill = function values (object) {
-  		 return Object.keys(object).map(key => object[key]);
-  	 };
-
-  	 const values = Object.values || valuesPolyfill;
-
   	 $.getJSON(endPoint, function(data) {
   		 // Process data, some of it may be the value pertaining to a results property.
   		 // Additionally, some data may or be not already be in array format. We tranform it to ensure we always return an Array.
   		 data = data.hasOwnProperty('results') ? data.results : data;
-  		 data = (!(data instanceof Array)) ?  values(data) : data;
+  		 data = (!(data instanceof Array)) ?  Object.values(data) : data;
   		 cb(key, data, widget);
   	 });
 }

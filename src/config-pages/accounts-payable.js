@@ -120,12 +120,13 @@ global.AccountsPayable = {
         endpoint: global.endpoints[global.env].ACCOUNTS_PAYABLE_CASH_DISBURSEMENT,
         bootStrapClass : 'col-lg-6 col-sm-12',
         type: 'pie',
-        aggregateBy: 'type',
+        groupBy: 'name',
         calculateBy: 'totalDue',
+        topElems: 3,
         label: 'accountsPayableChart',
         buildTable: true,
         defaultParams: 'balance=withbalance&selAll=All&paymentFlag=payment&displayGraphe=false',
-        formatTableData: { name: 'totalDue', type: 'currency'},
+        formatTableData: { name: 'totalDue', type: 'currency'}
     }, {
         name: 'SlidingToolBox',
         endpoint: global.endpoints[global.env].ACCOUNTS_PAYABLE_SLIDING

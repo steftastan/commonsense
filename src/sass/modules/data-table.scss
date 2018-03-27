@@ -39,6 +39,10 @@
     margin-bottom: 5px;
 }
 
+.dataTable__body--fixedHeight {
+    max-height: 170px;
+}
+
 /*
  * .dataTable--fullWidth class is also available for tables that span the entire width of screen
  * in this case we are only modifying the font-size for smaller tables

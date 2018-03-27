@@ -1,4 +1,5 @@
 import './../global.config.env.js';
+import './../global.polyfills.js';
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { GetWidget, ObjectToArray } from './../global.helpers.js';

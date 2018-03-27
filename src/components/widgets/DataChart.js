@@ -17,12 +17,16 @@ export class DataChart extends Component {
         this.Localization = Localization;
         this.ConvertRgbToRgba = ConvertRgbToRgba;
         this.DataFormatter = DataFormatter;
-        this.processData = this.processData.bind(this);
         this.colors = global.colors;
+        this.processData = this.processData.bind(this);
+        this.buildTable = this.buildTable.bind(this);
+        this.buildChart = this.buildChart.bind(this);
+        this.add = this.add.bind(this);
+        this.renderTable = [];
         this.myChart = null;
-        this.rawData = {};
         this.data = {};
-        this.buildTable = [];
+        this.chartDataArray = [];
+        this.tableHeaders = [];
         this.tableRows = [];
         this.state = {
             all: false,
@@ -33,172 +37,166 @@ export class DataChart extends Component {
 
     /*
      * Build data to in the statistics chart.
-     * Reference to this solution: https://stackoverflow.com/questions/21874436/summarize-and-group-json-object-in-jquery
-     */
+     * Reference to this solution:
+     *https://stackoverflow.com/questions/21874436/summarize-and-group-json-object-in-jquery
+    **/
     processData() {
-        this.rawData = this.props.results;
-
-        var aggregateBy = this.props.options.aggregateBy;
+        var groupBy = this.props.options.groupBy;
         var calculateBy = this.props.options.calculateBy;
+
         var output = {};
         var parseNumber = 0;
+        var index = 0;
 
-        console.log(this.rawData);
-
-        if (this.rawData && aggregateBy && calculateBy) {
+        if (this.props.results && groupBy && calculateBy) {
             try {
-                output = this.rawData.reduce(function(out, curr) {
+                output = this.props.results.reduce(function(out, curr) {
 
                     parseNumber = (!isNaN(curr[calculateBy]) ? Math.floor(curr[calculateBy]) : Math.floor(parseInt(curr[calculateBy].replace(/\s/g, "").replace(",", ""))));
-
-                    out.dataset[curr[aggregateBy]] = out.dataset[curr[aggregateBy]] || {};
-                    out.dataset[curr[aggregateBy]]['dataName'] = curr[aggregateBy] || {};
-                    out.dataset[curr[aggregateBy]][calculateBy] = (out.dataset[curr[aggregateBy]][calculateBy] || 0) + parseNumber;
+                    out.dataset[index] = out.dataset[curr[groupBy]] || {};
+                    out.dataset[index][groupBy] = curr[groupBy] || {};
+                    out.dataset[index][calculateBy] = (out.dataset[index][calculateBy] || 0) + parseNumber;
                     out.total['total'] = (out.total['total'] || 0) + parseNumber;
+
+                    index++;
                     return out;
 
-                }, {'dataset' : {}, 'total':{}});
+                }, {'dataset' : [], 'total':{}});
             } catch (e) {
                 /* The operation fails if:
                  *
                  * The data returned from the web service doesn't have columns that match the names
-                 * provided in the aggregateBy and calculateBy properties.
+                 * provided in the groupBy and calculateBy properties.
                  * To fix, double check the data received from the WS, or modify the values
-                 * for aggregateBy and calculateBy in global.pages.js for that page's configuration.
-                 */
+                 * for groupBy and calculateBy in global.pages.js for that page's configuration.
+                **/
                 console.log('An error ocurred while generating the data chart.');
             }
 
         }
+
         return output;
+    }
+
+    /* Build data table **/
+    buildTable(chartData) {
+        var index = 0;
+        var dataTableArray = [];
+        var tableHeaders = [];
+        var sortedDataset = [];
+        var columnType = '';
+        var calculateBy = this.props.options.calculateBy;
+        var formatTableData = this.props.options.formatTableData;
+
+        for(var i = 0; i < 1; i++) {
+
+            for(var key in chartData.dataset[i]) {
+
+                if (key === formatTableData.name) {
+                    columnType = formatTableData.type;
+                }
+
+                this.tableHeaders.push(
+                    <TableHeaderColumn
+                    key={index}
+                    width={'50'}
+                    isKey={index === 0 ? true : false}
+                    dataFormat={this.DataFormatter}
+                    formatExtraData={columnType}
+                    dataSort={true}
+                    dataField={key}>
+                        {this.Localization(key, this.props.language)}
+                    </TableHeaderColumn>);
+                index++;
+            }
+        }
+
+        this.renderTable = (
+            <BootstrapTable
+                key={i}
+                data={chartData.dataset}
+                striped hover
+                tableHeaderClass={'dataTable__row--header'}
+                bodyContainerClass='dataTable__body--fixedHeight'
+                trClassName={'dataTable__row--content'}>
+                    {this.tableHeaders}
+            </BootstrapTable>);
+    }
+
+    /* This function is used to add up and merge the values
+     * that fall under the Other category
+    **/
+    add(a, b) {
+        var calculateBy = this.props.options.calculateBy;
+        return a + b[calculateBy];
+    }
+
+    buildChart(chartData) {
+        var type = this.props.options.type || 'pie'; //Default to pie chart if no type was specified.
+        var groupBy = this.props.options.groupBy;
+        var calculateBy = this.props.options.calculateBy;
+        var chartLabel = this.Localization(this.props.options.label, this.props.language) || '';
+        var labels = [];
+        var backgroundColor = [];
+        var borderColor = [];
+        var sortedDataset = chartData.dataset.sort(function(a, b) {return (a[calculateBy] < b[calculateBy]) ? 1 : ((b[calculateBy] < a[calculateBy]) ? -1 : 0);});
+        var topElems = [];
+        var otherElems = [];
+
+        /* Split the data into Top Elements and Others if neccessary */
+        if (sortedDataset.length > this.props.options.topElems) {
+            topElems = sortedDataset.slice(0, (this.props.options.topElems || 5)); // Get the top 5 according to the calculateBy field
+            otherElems = sortedDataset.slice((this.props.options.topElems || 5)); // Get the remaining elements
+            var otherSum = otherElems.reduce(this.add, 0); // Merge all other items together
+        } else {
+            topElems = sortedDataset;
+        }
+
+        /* Make labels for the top elements */
+        for (var i = 0; i < topElems.length; i++) {
+            labels.push(topElems[i][groupBy]);
+            this.chartDataArray.push(topElems[i][calculateBy]);
+        }
+
+        /* Create an "other" label for all non-top elements */
+        if (otherElems.length) {
+            labels.push(this.Localization('others', this.props.language));
+            this.chartDataArray.push(otherSum);
+        }
+
+        /* Add cosmetic details */
+        if (labels.length) {
+            for (var i = 0; i < labels.length; i++) {
+                borderColor.push(this.colors[i]);
+                backgroundColor.push(this.ConvertRgbToRgba(this.colors[i], 0.2));
+            }
+        }
+
+
+        /* Push to config object */
+        this.data = {
+            labels: labels,
+            type: type,
+            datasets: [{
+                label: chartLabel,
+                data: this.chartDataArray,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 1
+            }]
+        };
     }
 
     /*
      * Build data object for the chart.
      */
     componentWillMount() {
-
-        var chartData = this.processData(); // The new object with the aggregated data.
-        var type = this.props.options.type || 'pie'; //Default to pie chart if no type was specified.
-        var chartLabel = this.Localization(this.props.options.label, this.props.language) || '';
         var buildTable = this.props.options.buildTable;
-        var labels = [];
-        var data = [];
-        var backgroundColor = [];
-        var borderColor = [];
-        var total = 0;
-        var tableHeaders;
+        var chartData = this.processData(); // The new object with the group data.
 
-        if (chartData) {
-
-            console.log(chartData);
-
-            for (var key in chartData.dataset) {
-                /* Obtain percentage */
-                total = (chartData.dataset[key][this.props.options.calculateBy] / chartData.total.total * 100);
-
-                labels.push(chartData.dataset[key].dataName);
-                data.push(chartData.dataset[key][this.props.options.calculateBy]);
-
-                if (buildTable) {
-
-                    console.log(key);
-
-                    // // tableHeaders = chartData.map(function(item, key) {
-                    //     filterBy = (this.dataColumns && (this.dataColumns.indexOf(item) !== -1)) ? { type: 'TextFilter' } : {};
-                    //     columnName = item.name || item;
-                    //     columnType = item.type || '';
-                    //     id = (item.type === 'id' ? item : {});
-                    //     columnWidth = ''+item.width+'' || 50; // Column width, or defaults to 50, whatever that means.
-                    //     columnName__text = this.Localization(columnName, this.props.language); // Translated version of the column name.
-                    //     align = (item.align || 'left'); // Align contents to whatever specified or fall back to left-alignment
-                    //
-                    //     return (
-                    //         <TableHeaderColumn
-                    //             key={key}
-                    //             width={columnWidth}
-                    //             isKey={key === 0 ? true : false}
-                    //             dataAlign={align}
-                    //             dataFormat={this.DataFormatter}
-                    //             formatExtraData={columnType}
-                    //             filter={filterBy}
-                    //             dataSort={true}
-                    //             dataField={columnName}>
-                    //                 {columnName__text}
-                    //         </TableHeaderColumn>
-                    //     );
-                    // // }, this);
-                    //
-                    // this.buildTable = (
-                    //     <BootstrapTable
-                    //         key={this.props.index}
-                    //         data={this.tableData}
-                    //         options={this.options}
-                    //         striped hover pagination
-                    //         tableHeaderClass={'dataTable__row--header'}
-                    //         trClassName={'dataTable__row--content'}>
-                    //             {tableHeaders}
-                    //     </BootstrapTable>);
-
-
-                    // /* Use the format type specified in config file or treat currency as default. */
-                    // var formatType = (this.props.options.formatTableData ? this.props.options.formatTableData.type : 'currency');
-                    //
-                    // /* Looks for the element to convert in the DataSet based on the data passed in the formatTableData, if available.
-                    //  * If that isn't available, it defaults to using the column specified in calculateBy.
-                    //  */
-                    // var formatData = (chartData.dataset[key][this.props.options.formatTableData] ? chartData.dataset[key][this.props.options.formatTableData.name] : chartData.dataset[key][this.props.options.calculateBy]);
-                    // var formattedCell = this.DataFormatter(formatData, null, formatType);
-                    //
-                    // this.tableRows.push(
-                    //     <tr className="dataChart__row" key={key}>
-                    //         <td className="dataChart__cell">{chartData.dataset[key].dataName}</td>
-                    //         <td className="dataChart__cell">{formattedCell}</td>
-                    //         <td className="dataChart__cell">{total.toFixed(2)}%</td>
-                    //     </tr>
-                    // );
-                }
-            }
-
-            // if (buildTable) {
-            //     this.buildTable.push(
-            //         <div key={this.props.index} className="col-lg-6">
-            //             <table key={this.props.index} className="dataChart__table">
-            //                 <thead className="dataChart__heading">
-            //                     <tr>
-            //                         <th className="dataChart__cell--heading">{this.props.options.aggregateBy}</th>
-            //                         <th className="dataChart__cell--heading">{this.props.options.calculateBy}</th>
-            //                         <th className="dataChart__cell--heading">%</th>
-            //                     </tr>
-            //                 </thead>
-            //                 <tbody className="dataChart__tableBody">
-            //                     {this.tableRows}
-            //                 </tbody>
-            //             </table>
-            //         </div>
-            //     );
-            // }
-
-            /* Build arrays of cosmetic details*/
-            if (labels.length) {
-                for (var i = 0; i < labels.length; i++) {
-                    borderColor.push(this.colors[i]);
-                    backgroundColor.push(this.ConvertRgbToRgba(this.colors[i], 0.2));
-                }
-            }
-
-            /* Push to config object */
-            this.data = {
-                labels: labels,
-                type: type,
-                datasets: [{
-                    label: chartLabel,
-                    data: data,
-                    backgroundColor: backgroundColor,
-                    borderColor: borderColor,
-                    borderWidth: 1
-                }]
-            };
+        if (chartData && chartData.dataset) {
+            this.buildChart(chartData);
+            if (buildTable) this.buildTable(chartData);
         }
     }
 
@@ -228,7 +226,7 @@ export class DataChart extends Component {
                     <div className={bootStrapClass}>
                         <RC2 data={this.data} type={this.data.type} />
                     </div>
-                    {this.buildTable}
+                    {this.renderTable}
                 </div>
             </div>
         );

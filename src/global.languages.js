@@ -5,6 +5,7 @@
 
 global.languages  = {
   "welcome": ["Welcome, ", "Bienvenue, "],
+  "others": ["Others", "Autres"],
   "farewell": ["Goodbye", "Au revoir"],
   "dashboard" : ["Dashboard", "Tableau de Bord"],
   "filterNavigation" : ["Filter navigation list", "Filtrer la liste de navigation"],
