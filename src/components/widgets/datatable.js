@@ -5,10 +5,11 @@
  * http://allenfang.github.io/react-bootstrap-table
  */
 
+import './../../global.polyfills.js';
 import React, { Component } from 'react';
 import $ from 'jquery';
-import './../../global.languages.js';
 import './../../global.config.env.js';
+import './../../global.languages.js';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Localization, DataFormatter} from './../../global.helpers.js';
 import { Filter } from './../../components/widgets/filter.js';
@@ -84,7 +85,7 @@ export class DataTable extends Component {
         var pagination = document.getElementsByClassName(this.pagination);
         var tableContainer;
 
-        /* Allows the submitted search to vary if the user manually changes the parametes in the URL */
+        /* Allows the submitted search to vary if the user manually changes the parameters in the URL */
         if (!window.location.href.includes(this.currentWeek) && /[?&]q=/.test(window.location.search)) {
             this.currentWeek = window.location.search;
         }
