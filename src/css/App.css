@@ -1887,6 +1887,7 @@ th.react-bs-table-expand-cell > div {
 .tag--submit {
   display: inline-block;
   border-radius: 15px;
+  border: none;
   padding: 8px;
   color: #FFF;
   background-color: #434747;

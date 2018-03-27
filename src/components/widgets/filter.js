@@ -1,5 +1,3 @@
-/* TODO: Move the filter from Data table to here, filters should be accessible for all other widgets */
-
 import React, { Component } from 'react';
 import { Localization } from './../../global.helpers.js';
 import Moment from 'moment';
@@ -54,19 +52,29 @@ export class Filter extends Component {
     }
 
     componentWillMount() {
-        if (this.props.filters) {
+        var allFilters = [];
+
+        /* Process the filters for the widget */
+        if (this.props.filters && this.props.filters.length) {
+
+            if (this.props.dbFilters.length) {
+                allFilters = this.props.filters.concat(this.props.dbFilters);
+            } else {
+                allFilters = this.props.filters;
+            }
+
             var submit__text = this.Localization('submit', this.props.language);
             var dropdowns;
             var value;
             var options = [];
 
             /* Build filter options*/
-            for (var i = 0; i < this.props.filters.length; i++) {
+            for (var i = 0; i < allFilters.length; i++) {
 
                 // If single-choice selection, such as textboxes etc.
-                if (this.props.filters[i].group && !(this.props.filters[i].group instanceof Array)) {
+                if (allFilters[i].group && !(allFilters[i].group instanceof Array)) {
 
-                    switch(this.props.filters[i].group.params) {
+                    switch(allFilters[i].group.params) {
                         case 'year':
                             value = Moment().year();
                             break;
@@ -77,28 +85,27 @@ export class Filter extends Component {
                     this.filter.push(
                         <input className="filter"
                             key={i} type="text"
-                            placeholder={this.props.filters[i].group.displayName}
+                            placeholder={allFilters[i].group.displayName}
                             defaultValue={value}
-                            name={this.props.filters[i].group.params}
-                            params={this.props.filters[i].group.params}/>);
+                            name={allFilters[i].group.params}
+                            params={allFilters[i].group.params}/>);
                 } else {
                     // Handle multiple choice options
                     this.filter.push(
                         <select key={i} id={i} defaultValue={this.selectedValue} className="filter dropdown">
-                            <Options key={i} options={this.props.filters[i].group}/>
+                            <Options key={i} options={allFilters[i].group}/>
                         </select>
                     );
                 }
             }
 
             /* Submit button */
-            if (this.props.filters.length) {
+            if (allFilters.length) {
                 this.submitButton = (<input type="submit" className="tag tag--submit" value={submit__text} onClick={this.filterTable}/>);
             }
 
             this.setState({
-                all: true,
-                filters: this.filters
+                all: true
             });
         }
     }

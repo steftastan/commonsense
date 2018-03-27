@@ -123,8 +123,7 @@ global.AccountsPayable = {
         groupBy: 'name',
         calculateBy: 'totalDue',
         topElems: 3,
-        label: 'accountsPayableChart',
-        buildTable: true,
+        buildTable: false,
         defaultParams: 'balance=withbalance&selAll=All&paymentFlag=payment&displayGraphe=false',
         formatTableData: { name: 'totalDue', type: 'currency'}
     }, {

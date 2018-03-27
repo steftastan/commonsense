@@ -92,10 +92,10 @@ global.AccountsReceivable = {
         endpoint: global.endpoints[global.env].ACCOUNTS_RECEIVABLE_ARAGEING,
         bootStrapClass : 'col-lg-6 col-sm-12',
         type: 'bar',
-        aggregateBy: 'desc',
+        groupBy: 'desc',
         calculateBy: 'total',
-        label: '',
-        buildTable: true,
+        label: 'Analysis',
+        buildTable: false,
         formatTableData: { name: 'total', type: 'currency'},
         filters: [{
             /*Dropdown group 1*/
@@ -128,24 +128,6 @@ global.AccountsReceivable = {
             }, {
                 displayName: 'Receivables by Period',
                 params: 'by=period'
-            }]
-        }, {
-            /* Dropdown group 3 */
-            group: [{
-                displayName: '1',
-                params: 'ageing=1'
-            }, {
-                displayName: '2',
-                params: 'ageing=2'
-            }, {
-                displayName: '3',
-                params: 'ageing=3'
-            }, {
-                displayName: '4',
-                params: 'ageing=4'
-            }, {
-                displayName: '5',
-                params: 'ageing=5'
             }]
         }]
     },

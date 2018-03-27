@@ -12,7 +12,7 @@ import './../../global.config.env.js';
 import './../../global.languages.js';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Localization, DataFormatter} from './../../global.helpers.js';
-import { Filter } from './../../components/widgets/filter.js';
+import { Filter } from './../../components/widgets/Filter.js';
 import Moment from 'moment';
 
 export class DataTable extends Component {
@@ -205,7 +205,7 @@ export class DataTable extends Component {
             var table = (
                 <div className="wrapper wrapper__content--whiteBox">
                     <h2 className={'dataTable__title'}>{title__text}</h2>
-                    <Filter filters={this.props.filters} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
+                    <Filter filters={this.props.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
                     <BootstrapTable key={this.props.index} data={this.tableData} options={this.options} striped hover pagination tableHeaderClass={'dataTable__row--header'} trClassName={'dataTable__row--content'}>
                         {tableHeaders}
                     </BootstrapTable>

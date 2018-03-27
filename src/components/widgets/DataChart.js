@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import './../../global.config.env.js';
 import { Localization, ConvertRgbToRgba, DataFormatter } from './../../global.helpers.js';
-import { Filter } from './../../components/widgets/filter.js';
+import { Filter } from './../../components/widgets/Filter.js';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import RC2 from 'react-chartjs2';
 
@@ -132,6 +132,7 @@ export class DataChart extends Component {
     }
 
     buildChart(chartData) {
+
         var type = this.props.options.type || 'pie'; //Default to pie chart if no type was specified.
         var groupBy = this.props.options.groupBy;
         var calculateBy = this.props.options.calculateBy;
@@ -222,9 +223,9 @@ export class DataChart extends Component {
             <div key={this.props.theKey} className={this.props.options.bootStrapClass}>
                 <div className="wrapper wrapper__content--whiteBox">
                     <h2 className={'dataTable__title'}>{title__text}</h2>
-                    <Filter filters={this.props.options.filters} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
+                    <Filter filters={this.props.options.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
                     <div className={bootStrapClass}>
-                        <RC2 data={this.data} type={this.data.type} />
+                        <RC2 data={this.data} type={this.props.options.type || 'pie'} />
                     </div>
                     {this.renderTable}
                 </div>

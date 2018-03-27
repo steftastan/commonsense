@@ -92,13 +92,21 @@ export function HandleRegularLink(link) {
    */
 export function GetWidget(key, widget, filters, cb) {
 	var endPoint = (widget.endpoint ? widget.endpoint : '')+(filters ? filters : '');
+	var response = {};
 
   	 $.getJSON(endPoint, function(data) {
-  		 // Process data, some of it may be the value pertaining to a results property.
+
+		 // Process data, some of it may be the value pertaining to a results property.
   		 // Additionally, some data may or be not already be in array format. We tranform it to ensure we always return an Array.
-  		 data = data.hasOwnProperty('results') ? data.results : data;
-  		 data = (!(data instanceof Array)) ?  Object.values(data) : data;
-  		 cb(key, data, widget);
+		 if (data.hasOwnProperty('results')) {
+			 response['results'] = (!(data.results instanceof Array)) ?  Object.values(data.results) : data.results;
+		 }
+
+		 if (data.hasOwnProperty('filters')) {
+			 response['filters'] = data.filters;
+		 }
+
+  		 cb(key, response, widget);
   	 });
 }
 

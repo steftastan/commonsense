@@ -31,6 +31,24 @@
           "total":27088.11
        }
     ],
+    "filters" : [{
+        "group": [{
+            "displayName": 1,
+            "params": "ageing=1"
+        }, {
+            "displayName": 2,
+            "params": "ageing=2"
+        }, {
+            "displayName": 3,
+            "params": "ageing=3"
+        }, {
+            "displayName": 4,
+            "params": "ageing=4"
+        }, {
+            "displayName": 6,
+            "params": "ageing=6"
+        }]
+    }],
     "totalArray":[
        127421.62,
        109300.53,
@@ -38,12 +56,5 @@
        7393.56,
        30327.0,
        274442.71
-    ],
-    "ageingList":[
-       "1",
-       "2",
-       "3",
-       "4",
-       "6"
     ]
  }
