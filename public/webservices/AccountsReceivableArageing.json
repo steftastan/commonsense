@@ -14,21 +14,6 @@
           "phoneNo":null,
           "province":null,
           "total":247354.6
-       },
-       {
-          "address":null,
-          "city":null,
-          "code":"02",
-          "current":10703.11,
-          "custSub":null,
-          "desc":"Toronto",
-          "period1":0.0,
-          "period2":0.0,
-          "period3":0.0,
-          "period4":16385.0,
-          "phoneNo":null,
-          "province":null,
-          "total":27088.11
        }
     ],
     "filters" : [{
@@ -48,13 +33,5 @@
             "displayName": 6,
             "params": "ageing=6"
         }]
-    }],
-    "totalArray":[
-       127421.62,
-       109300.53,
-       0.0,
-       7393.56,
-       30327.0,
-       274442.71
-    ]
+    }]
  }
