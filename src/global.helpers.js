@@ -250,17 +250,17 @@ export function ConvertRgbToRgba(color, opacity) {
  * Add more formatting options by adding new cases to the switch.
  */
 export function DataFormatter(cell, row, type) {
+
 	switch(type) {
 	    case 'currency':
-	        cell = numeral(cell).format('$0,0.00');
+		var color = row.amountColor || 'black';
+			cell = '<span style="color:'+color+'">'+numeral(cell).format('$0,0.00')+'</span>';
 	        break;
 		case 'link':
 			var split = cell.split(' ');
 			var param = split.join('+');
 			cell = '<a href="/commonsense/ap/menu.jsp?supplier='+row['supNum']+'&name='+param+'">'+cell+'</a>';
 			break;
-		case 'color':
-			cell = '<span style="color:red">'+cell+'</span>';
 	}
 	return cell;
 }

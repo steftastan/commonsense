@@ -1,6 +1,6 @@
-{  
-    "results":[  
-       {  
+{
+    "results":[
+       {
           "address":"174 Northridge Drive     ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -14,7 +14,7 @@
           "province":"AB                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"6757 Northwest Drive     ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -28,7 +28,7 @@
           "province":"ON                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"6500 Chemin St. Francois ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -42,7 +42,7 @@
           "province":"QC                  ",
           "thisPayment":8335.69
        },
-       {  
+       {
           "address":"3103 Hawthorne Rd        ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -56,7 +56,7 @@
           "province":"ON                  ",
           "thisPayment":4915.5
        },
-       {  
+       {
           "address":"161 Watline Avenue       ",
           "agedAt":"2018/03/22",
           "amountColor":"black",
@@ -84,7 +84,7 @@
           "province":"ON                  ",
           "thisPayment":16068.38
        },
-       {  
+       {
           "address":"105 Adelaide Street West ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -98,7 +98,7 @@
           "province":"ON                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"2001 Huron Church Road   ",
           "agedAt":"2018/03/22",
           "amountColor":"black",
@@ -112,7 +112,7 @@
           "province":"ON                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"Radley Court, Collymore  ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -126,7 +126,7 @@
           "province":"Barbados            ",
           "thisPayment":7528.03
        },
-       {  
+       {
           "address":"Second Terrace & Collins ",
           "agedAt":"2018/03/22",
           "amountColor":"black",
@@ -140,7 +140,7 @@
           "province":"Nassau, Bahamas     ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"59 Independence Square   ",
           "agedAt":"2018/03/22",
           "amountColor":"black",
@@ -154,7 +154,7 @@
           "province":"Trinidad and Tobago ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"300-1 James Street South ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -168,7 +168,7 @@
           "province":"ON                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"775 Pacific Road         ",
           "agedAt":"2018/03/22",
           "amountColor":"black",
@@ -182,7 +182,7 @@
           "province":"ON                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"1751 Richardson st.      ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -196,7 +196,7 @@
           "province":"QC                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"8065, Henri-Bourassa est ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -210,7 +210,7 @@
           "province":"QC                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"5700 Cote de Liesse      ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -224,7 +224,7 @@
           "province":"QC                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"645 Wellington, Suite 400",
           "agedAt":"2018/03/22",
           "amountColor":"black",
@@ -238,7 +238,7 @@
           "province":"QC                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"8500, Pascal-Gagnon      ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -252,7 +252,7 @@
           "province":"QC                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"1300 Sherbrooke Ouest    ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -266,7 +266,7 @@
           "province":"QC                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"9100, Maurice Duplessis  ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
@@ -280,7 +280,7 @@
           "province":"QC                  ",
           "thisPayment":0.0
        },
-       {  
+       {
           "address":"375, De Liège ouest      ",
           "agedAt":"2018/03/22",
           "amountColor":"red",
