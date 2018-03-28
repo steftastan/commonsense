@@ -4,7 +4,7 @@ import $ from 'jquery';
 import React, { Component } from 'react';
 import { GetWidget, ObjectToArray } from './../global.helpers.js';
 import { BreadCrumbs } from './../components/layout/breadcrumbs.js';
-import { Filter } from './../components/widgets/filter.js';
+import { Filter } from './../components/widgets/Filter.js';
 
 /** ACCOUNTS PAYABLE
  *
@@ -78,7 +78,7 @@ export class GenericComponent extends Component {
                 this.props.history.push(this.props.location.pathname+this.state.filters);
 
                 // update the widget whose data we're filtering
-                this.GetWidget(this.state.component, this.props.options.widgets[this.state.component], this.state.filters, function(key, result, widget) {
+                this.GetWidget(this.state.component, this.props.options.widgets[this.state.component], this.state.filters, function(key, response, widget) {
                     var tempWidgets = [];
                     var newWidget = {};
                     var componentName = widget.name;
@@ -88,9 +88,10 @@ export class GenericComponent extends Component {
                         index={key}
                         key={key}
                         options={widget}
-                        results={result}
+                        results={response.results}
                         search={this.state.filters}
-                        filters={widget.filters || {}}
+                        filters={widget.filters || []}
+                        dbFilters={response.filters || []}
                         filterHandler={this.filterHandler}
                         language={this.props.language} />);
 
@@ -107,8 +108,8 @@ export class GenericComponent extends Component {
 
            /* Include query string if present in URL */
            for (var i = 0; i < this.props.options.widgets.length; i++) {
-               this.GetWidget(i, this.props.options.widgets[i], filters, function(key, result, widget) {
-                   if (result) {
+               this.GetWidget(i, this.props.options.widgets[i], filters, function(key, response, widget) {
+                   if (response) {
                        var componentName = widget.name;
                        if (componentName) {
                            var Component = require('./../components/widgets/'+componentName+'.js').default;
@@ -116,14 +117,16 @@ export class GenericComponent extends Component {
                            /**
                            * Decide which components to display based on what was established in the options object.
                            */
+
                            this.widgets.push(
                                <Component
                                    index={key}
                                    key={key}
                                    options={widget}
-                                   results={result}
+                                   results={response.results}
                                    search={this.props.location.search}
-                                   filters={widget.filters || {}}
+                                   filters={widget.filters || []}
+                                   dbFilters={response.filters || []}
                                    filterHandler={this.filterHandler}
                                    language={this.props.language} />);
                        }

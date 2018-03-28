@@ -14,36 +14,24 @@
           "phoneNo":null,
           "province":null,
           "total":247354.6
-       },
-       {
-          "address":null,
-          "city":null,
-          "code":"02",
-          "current":10703.11,
-          "custSub":null,
-          "desc":"Toronto",
-          "period1":0.0,
-          "period2":0.0,
-          "period3":0.0,
-          "period4":16385.0,
-          "phoneNo":null,
-          "province":null,
-          "total":27088.11
        }
     ],
-    "totalArray":[
-       127421.62,
-       109300.53,
-       0.0,
-       7393.56,
-       30327.0,
-       274442.71
-    ],
-    "ageingList":[
-       "1",
-       "2",
-       "3",
-       "4",
-       "6"
-    ]
+    "filters" : [{
+        "group": [{
+            "displayName": 1,
+            "params": "ageing=1"
+        }, {
+            "displayName": 2,
+            "params": "ageing=2"
+        }, {
+            "displayName": 3,
+            "params": "ageing=3"
+        }, {
+            "displayName": 4,
+            "params": "ageing=4"
+        }, {
+            "displayName": 6,
+            "params": "ageing=6"
+        }]
+    }]
  }
