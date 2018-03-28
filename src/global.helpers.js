@@ -106,6 +106,8 @@ export function GetWidget(key, widget, filters, cb) {
 			 response['filters'] = data.filters;
 		 }
 
+		 console.log(response);
+
   		 cb(key, response, widget);
   	 });
 }
@@ -253,9 +255,9 @@ export function DataFormatter(cell, row, type) {
 
 	switch(type) {
 	    case 'currency':
-		var color = row.amountColor || 'black';
+			var color = row.amountColor || 'black';
 			cell = '<span style="color:'+color+'">'+numeral(cell).format('$0,0.00')+'</span>';
-	        break;
+        	break;
 		case 'link':
 			var split = cell.split(' ');
 			var param = split.join('+');
