@@ -27,7 +27,8 @@ global.AccountsReceivable = {
                 width: 30
             }, {
                 name: 'amountDue',
-                width: 30
+                width: 30,
+                type: 'currency'
             }, {
                 name: 'agedAt',
                 width: 30
