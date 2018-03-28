@@ -259,6 +259,8 @@ export function DataFormatter(cell, row, type) {
 			var param = split.join('+');
 			cell = '<a href="/commonsense/ap/menu.jsp?supplier='+row['supNum']+'&name='+param+'">'+cell+'</a>';
 			break;
+		case 'color':
+			cell = '<span style="color:red">'+cell+'</span>';
 	}
 	return cell;
 }
