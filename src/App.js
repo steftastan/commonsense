@@ -8,6 +8,7 @@ import { Header } from './components/layout/header.js';
 import { CompanyList } from './components/layout/company-list.js';
 import { Accordion } from './components/layout/accordion.js';
 import { ChangePassword } from './pages/ChangePassword.js';
+import { Login } from './pages/Login.js';
 import { Dashboard } from './pages/Dashboard.js';
 
 /** APP.JS
@@ -70,14 +71,12 @@ export class App extends Component {
     		success: function(data, status) {
                 if (data.success) this.setState({isLogin: true});
 
-                /*tryin stuff*/
                 $.ajax({
                     url: global.endpoints[global.env].SESSION,
                     dataType: 'json',
                     cache: false,
                     method: 'GET',
                     success: function(data) {
-                        console.log(data);
                         this.employeeName = data.userId;
                         this.defaultCompany = data.fileName;
                         this.language = data.language;
@@ -189,10 +188,9 @@ export class App extends Component {
         var routes;
         var componentName;
         var staticPages = [
-            {component: ChangePassword, path: 'change-password'}
+            {component: ChangePassword, path: 'change-password'},
+            {component: Login, path: 'login'}
         ];
-
-        //TODO make login page here 
 
         /* Create routes to pages that aren't returned from the DB
          * The Dashboard is code 7 in the links list. Update dashboard path to this:
@@ -202,7 +200,7 @@ export class App extends Component {
             this.routesToComponents.push(<Route
                 exact
                 key={key}
-                path={global.paths[global.env].BASE_URL+comp.path}
+                path={global.paths[global.env].REACT_LINK+comp.path}
                 component={comp.component} />);
             return this.routesToComponents;
         }, this);
@@ -340,22 +338,8 @@ export class App extends Component {
             /*set timeout to hide login while stuff loads */
             setTimeout(function() {
                 this.setState({content: (
-                    <div className="container-fluid wrapper__content--login">
-                        <h2 className="login__title">Login to continue</h2>
-                        <form>
-                            <input name="username" className="login__input" type="text" placeholder="Username"
-                                onChange={(event) => this.setState({username: event.target.value})}/>
-                            <input name="password" className="login__input" type="password" placeholder="Password"
-                                onChange={(event) => this.setState({password: event.target.value})}/>
-                            <input name="submit" className="login__submit" onClick={this.handleSubmit} type="submit" value="Log in"/>
-                            <span className="login__rememberMe">
-                                <input className="login__remember--checkbox" type="checkbox" defaultChecked data-toggle="toggle"/>
-                                <span className="login__remember--text">Remember me</span>
-                            </span>
-                            <a className="login__pwChange" href="/change-password">Change password</a>
-                            </form>
-                    </div>)});
-
+                    <Login/>
+                )});
             }.bind(this), 1000);
 
             return (
