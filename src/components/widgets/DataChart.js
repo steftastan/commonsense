@@ -220,7 +220,7 @@ export class DataChart extends Component {
         var bootStrapClass = this.props.options.buildTable ? 'col-lg-6' : 'col-12';
 
         return (
-            <div key={this.props.theKey} className={this.props.options.bootStrapClass}>
+            <div key={this.props.theKey} id={this.props.index} className={this.props.options.bootStrapClass}>
                 <div className="wrapper wrapper__content--whiteBox">
                     <h2 className={'dataTable__title'}>{title__text}</h2>
                     <Filter filters={this.props.options.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />

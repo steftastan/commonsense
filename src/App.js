@@ -77,6 +77,7 @@ export class App extends Component {
                     cache: false,
                     method: 'GET',
                     success: function(data) {
+                        console.log(data);
                         this.employeeName = data.userId;
                         this.defaultCompany = data.fileName;
                         this.language = data.language;
@@ -190,6 +191,8 @@ export class App extends Component {
         var staticPages = [
             {component: ChangePassword, path: 'change-password'}
         ];
+
+        //TODO make login page here 
 
         /* Create routes to pages that aren't returned from the DB
          * The Dashboard is code 7 in the links list. Update dashboard path to this:

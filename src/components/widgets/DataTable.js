@@ -13,15 +13,16 @@ import './../../global.languages.js';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import { Localization, DataFormatter} from './../../global.helpers.js';
 import { Filter } from './../../components/widgets/Filter.js';
-import Moment from 'moment';
-
 export class DataTable extends Component {
 
     constructor(props) {
       super(props);
       this.Localization = Localization;
       this.DataFormatter = DataFormatter;
+      this.renderTable = this.renderTable.bind(this);
       this.pagination = 'pagination';
+      this.tableHeaders = {};
+      this.table = {};
       this.tableData = [];
       this.dataColumns = [];
       this.options = {};
@@ -35,8 +36,95 @@ export class DataTable extends Component {
       };
     }
 
+    renderTable(index) {
+        var title__text;
+        var columnName__text;
+        var align;
+        var filterBy;
+        var columnName;
+        var columnType;
+        var columnWidth;
+        var id;
+
+        /**
+         * Build the table's columns
+         * We can pass the custom columns we want to use with the customColumn property from the config.
+         * The fallback behavior is to display all columns.
+        **/
+
+        if (!index) {
+            /* First time rendering table*/
+            this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+        } else {
+
+            for (var i = 0; i < this.props.options.filters.length; i++) {
+
+                /* Checks the filter type, if group is an Array it is a dropdown menu */
+                if (this.props.options.filters[i].group instanceof Array && this.props.options.filters[i].group.length) {
+
+                    for (var j = 0; j < this.props.options.filters[i].group.length; j++) {
+                        if (this.props.search.indexOf(this.props.options.filters[i].group[j].params) !== -1) {
+                            /* Display the correct custom column set depending on user criteria */
+                            if (this.props.options.filters[i].group[j].customColumns) this.dataColumns = this.props.options.filters[i].group[j].customColumns;
+                            break;
+                        }
+                    }
+                }
+
+                else {
+                    /* For all others where filters are not multiple choice, and custom columns are not applicable */
+                    this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
+                }
+            }
+
+        }
+
+        /* Build table with all the data we acquired */
+        if (this.dataColumns.length) {
+            this.tableHeaders = this.dataColumns.map(function(item, key) {
+                filterBy = (this.dataColumns && (this.dataColumns.indexOf(item) !== -1)) ? { type: 'TextFilter' } : {};
+                columnName = item.name || item;
+                columnType = item.type || '';
+                id = (item.type === 'id' ? item : {});
+                columnWidth = ''+item.width+'' || 50; // Column width, or defaults to 50, whatever that means.
+                columnName__text = this.Localization(columnName, this.props.language); // Translated version of the column name.
+                align = (item.align || 'left'); // Align contents to whatever specified or fall back to left-alignment
+
+                return (
+                    <TableHeaderColumn
+                        key={key}
+                        width={columnWidth}
+                        isKey={key === 0 ? true : false}
+                        dataAlign={align}
+                        dataFormat={this.DataFormatter}
+                        formatExtraData={columnType}
+                        filter={filterBy}
+                        dataSort={true}
+                        dataField={columnName}>
+                            {columnName__text}
+                    </TableHeaderColumn>
+                );
+            }, this);
+        }
+
+        if (this.tableData && this.dataColumns) {
+            /*Translated version of title*/
+            title__text = this.Localization(this.props.options.title, this.props.language);
+
+            this.table = (
+                <div className="wrapper wrapper__content--whiteBox">
+                    <h2 className={'dataTable__title'}>{title__text}</h2>
+                    <Filter filters={this.props.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
+                    <BootstrapTable key={this.props.index} data={this.tableData} options={this.options} striped hover pagination tableHeaderClass={'dataTable__row--header'} trClassName={'dataTable__row--content'}>
+                        {this.tableHeaders}
+                    </BootstrapTable>
+                    <div className="dataTable__pagination"></div>
+                </div>
+            );
+        }
+    }
+
     componentWillMount() {
-        var submit__text = this.Localization('submit', this.props.language);
         this.tableData = this.props.results;
         this.options = {
             page: 1,  // which page you want to show as default
@@ -57,6 +145,9 @@ export class DataTable extends Component {
             paginationShowsTotal: true,  // Accept bool or function
             paginationPosition: 'top'  // default is bottom, top and both is all available
         };
+
+        /* Render table first time around */
+        if (this.tableData && this.tableData.length) this.renderTable();
 
         /**
          * Replace the default values in the options variable if custom
@@ -105,120 +196,22 @@ export class DataTable extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        var data = {};
-        var result = {};
-        var filters;
-
         /**
         * Begin the process of loading widgets after the component has finished mounting.
         */
+
         if (prevProps.results !== this.props.results) {
-            this.setState({ updated: true });
             this.tableData = this.props.results;
+            this.renderTable(this.props.index);
+            this.setState({ updated: true });
         }
     }
 
     render() {
-        var tableHeaders;
-        var align;
-        var filterBy;
-        var title__text;
-        var id;
-        var columnName;
-        var columnName__text;
-        var columnType;
-        var columnWidth;
-
-        if (this.tableData && this.tableData.length) {
-
-            /**
-             * Build the table's columns
-             * We can pass the custom columns we want to use with the customColumn property from the config.
-             * The fallback behavior is to display all columns.
-             */
-            if (this.props.options) {
-
-                if (!this.props.options.filters || !this.props.search) {
-                    /* If the configuration object doesn't specify multiple endpoints, or if no parameters are on the URL */
-                    this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
-                } else {
-                    for (var i = 0; i < this.props.options.filters.length; i++) {
-
-                        /* In case of dropdown */
-                        if (this.props.options.filters[i].group instanceof Array && this.props.options.filters[i].group.length) {
-
-                            for (var j = 0; j < this.props.options.filters[i].group.length; j++) {
-
-                                /* if there are custom columns */
-                                if (this.props.options.filters[i].group[j] && this.props.options.filters[i].group[j].customColumns) {
-
-                                    /* Build data table with the custom columns for the selected filter */
-                                    if (this.props.search.indexOf(this.props.options.filters[i].group[j].params) !== -1) {
-                                        this.dataColumns = this.props.options.filters[i].group[j].customColumns;
-                                        break;
-                                    } else {
-                                        /* The query string doesn't match anything in the config, render default columns to prevent errors */
-                                        this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
-                                    }
-                                }
-                            }
-                        } else {
-                            /* For all others where filters are not multiple choice, and custom columns are not applicable */
-                            this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
-                        }
-                    }
-                }
-
-                if (this.dataColumns.length) {
-                    tableHeaders = this.dataColumns.map(function(item, key) {
-                        filterBy = (this.dataColumns && (this.dataColumns.indexOf(item) !== -1)) ? { type: 'TextFilter' } : {};
-                        columnName = item.name || item;
-                        columnType = item.type || '';
-                        id = (item.type === 'id' ? item : {});
-                        columnWidth = ''+item.width+'' || 50; // Column width, or defaults to 50, whatever that means.
-                        columnName__text = this.Localization(columnName, this.props.language); // Translated version of the column name.
-                        align = (item.align || 'left'); // Align contents to whatever specified or fall back to left-alignment
-
-                        return (
-                            <TableHeaderColumn
-                                key={key}
-                                width={columnWidth}
-                                isKey={key === 0 ? true : false}
-                                dataAlign={align}
-                                dataFormat={this.DataFormatter}
-                                formatExtraData={columnType}
-                                filter={filterBy}
-                                dataSort={true}
-                                dataField={columnName}>
-                                    {columnName__text}
-                            </TableHeaderColumn>
-                        );
-                    }, this);
-                }
-            }
-        }
-
-        if (this.tableData && this.dataColumns) {
-            /*Translated version of title*/
-            title__text = this.Localization(this.props.options.title, this.props.language);
-
-            var table = (
-                <div className="wrapper wrapper__content--whiteBox">
-                    <h2 className={'dataTable__title'}>{title__text}</h2>
-                    <Filter filters={this.props.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
-                    <BootstrapTable key={this.props.index} data={this.tableData} options={this.options} striped hover pagination tableHeaderClass={'dataTable__row--header'} trClassName={'dataTable__row--content'}>
-                        {tableHeaders}
-                    </BootstrapTable>
-                    <div className="dataTable__pagination"></div>
-                </div>
-            );
-        }
-
         return (
             <div key={this.props.index} id={this.props.index} className={this.props.options.bootStrapClass}>
-                {table}
+                {this.table}
             </div>
-
         );
     }
 }

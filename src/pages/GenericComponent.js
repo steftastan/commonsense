@@ -48,6 +48,7 @@ export class GenericComponent extends Component {
     /* This function is passed as a prop to the submit button in the filter widget,
      * so we update the state every time we perform a new search. */
     filterHandler(param, comp) {
+        /* TODO remove the extra state cahange by putting if clause from ln 75 here except that breaks otehr stuff */
         this.setState({filters: param, component: comp});
     }
 
@@ -87,6 +88,7 @@ export class GenericComponent extends Component {
                     newWidget = (<Component
                         index={key}
                         key={key}
+                        active={this.state.component}
                         options={widget}
                         results={response.results}
                         search={this.state.filters}

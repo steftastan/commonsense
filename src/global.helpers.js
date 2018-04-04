@@ -106,8 +106,6 @@ export function GetWidget(key, widget, filters, cb) {
 			 response['filters'] = data.filters;
 		 }
 
-		 console.log(response);
-
   		 cb(key, response, widget);
   	 });
 }

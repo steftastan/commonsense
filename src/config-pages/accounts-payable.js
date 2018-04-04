@@ -34,16 +34,16 @@ global.AccountsPayable = {
                 displayName: 'Purchases',
                 params: 'cheques=purchases',
                 customColumns: [
-                    {name: 'supNum', width: 50, type: 'id'},
-                    {name: 'name',  type: 'link', width: 60},
-                    {name: 'address', width: 50},
-                    {name: 'city', width: 30},
                     {name: 'province', width: 30, align: 'center'},
-                    {name: 'telephone', width: 30},
-                    {name: 'balance',width: 30, type: 'currency'},
-                    {name: 'lastInvoiceDate', width: 40},
-                    {name: 'ytdamount', width: 35},
-                    {name: 'currPeriodAMT', width: 40, type: 'currency' }]
+                    {name: 'currPeriodAMT', width: 40, type: 'currency', align: 'right' },
+                    {name: 'address', width: 50, align: 'left'},
+                    {name: 'supNum', width: 50, type: 'id'},
+                    {name: 'name', width: 60, type: 'link', align: 'left'},
+                    {name: 'city', width: 30, align: 'center'},
+                    {name: 'telephone', width: 30, align: 'center'},
+                    {name: 'balance',width: 30, type: 'currency', align: 'left'},
+                    {name: 'lastInvoiceDate', width: 40, align: 'center'},
+                    {name: 'lastCheckDate', width: 35, align: 'center'}]
             }]
         }, {
             /* Dropdown group 2 */
