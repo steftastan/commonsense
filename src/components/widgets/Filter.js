@@ -44,7 +44,7 @@ export class Filter extends Component {
          this.queryArray = this.queryArray.concat(params);
 
         /* Build the query string */
-        if (this.queryArray.length) {
+        if (this.queryArray.length && this.props.filterHandler) {
             this.queryString = this.queryArray.join('&');
             this.queryArray = [];
             this.props.filterHandler('?'+this.queryString, this.props.id);

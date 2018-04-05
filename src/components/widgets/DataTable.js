@@ -110,10 +110,11 @@ export class DataTable extends Component {
         if (this.tableData && this.dataColumns) {
             /*Translated version of title*/
             title__text = this.Localization(this.props.options.title, this.props.language);
+            var dataTableTitle = (this.props.options.hideTitleInTable ? '' : (<h2 className='dataTable__title'>{title__text}</h2>));
 
             this.table = (
-                <div className="wrapper wrapper__content--whiteBox">
-                    <h2 className={'dataTable__title'}>{title__text}</h2>
+                <div className={this.props.options.tableWrapperClass || "wrapper wrapper__content--whiteBox"}>
+                    {dataTableTitle}
                     <Filter filters={this.props.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
                     <BootstrapTable key={this.props.index} data={this.tableData} options={this.options} striped hover pagination tableHeaderClass={'dataTable__row--header'} trClassName={'dataTable__row--content'}>
                         {this.tableHeaders}
@@ -208,8 +209,9 @@ export class DataTable extends Component {
     }
 
     render() {
+        var bootstrapClass = (this.props.options.overrideBootStrapClass ? this.props.options.overrideBootStrapClass : this.props.options.bootStrapClass);
         return (
-            <div key={this.props.index} id={this.props.index} className={this.props.options.bootStrapClass}>
+            <div key={this.props.index} id={this.props.index} className={bootstrapClass}>
                 {this.table}
             </div>
         );

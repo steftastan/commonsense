@@ -9,8 +9,8 @@
 * ******************************************************************************
 */
 
-//global.env = 'dev';
-global.env = 'prod';
+global.env = 'dev';
+//global.env = 'prod';
 
 global.colors =  [
     'rgb(45, 116, 218)',

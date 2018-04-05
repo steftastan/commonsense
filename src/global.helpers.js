@@ -253,7 +253,7 @@ export function DataFormatter(cell, row, type) {
 
 	switch(type) {
 	    case 'currency':
-			var color = row.amountColor || 'black';
+			var color = row ? row.amountColor : 'inherit';
 			cell = '<span style="color:'+color+'">'+numeral(cell).format('$0,0.00')+'</span>';
         	break;
 		case 'link':
