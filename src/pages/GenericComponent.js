@@ -36,6 +36,7 @@ export class GenericComponent extends Component {
       this.toolBox = [];
       this.widgets = [];
       this.data = [];
+      this.hasToolBox = false;
       this.state = {
           widgets: [],
           loaded: false,
@@ -48,7 +49,6 @@ export class GenericComponent extends Component {
     /* This function is passed as a prop to the submit button in the filter widget,
      * so we update the state every time we perform a new search. */
     filterHandler(param, comp) {
-        /* TODO remove the extra state cahange by putting if clause from ln 75 here except that breaks otehr stuff */
         this.setState({filters: param, component: comp});
     }
 
@@ -116,6 +116,8 @@ export class GenericComponent extends Component {
                        if (componentName) {
                            var Component = require('./../components/widgets/'+componentName+'.js').default;
 
+                           this.hasToolBox = (componentName === "ToolBox" ? true : this.hasToolBox);
+
                            /**
                            * Decide which components to display based on what was established in the options object.
                            */
@@ -150,8 +152,10 @@ export class GenericComponent extends Component {
 
     render() {
         var content = (this.state.widgets && this.state.widgets.length ? <div>{this.state.widgets}</div> : <div className="spinner"></div>);
+        var toolBoxMargin = (this.hasToolBox ? 'wrapper__genericComponent--margin' : '');
+        console.log(this.hasToolBox);
         return (
-            <div>
+            <div className={"wrapper__genericComponent "+toolBoxMargin}>
                 <BreadCrumbs breadcrumbs={this.props.page} language={this.props.language}>
                     <div id="toolBoxHolder" className="toolBoxHolder"></div>
                 </BreadCrumbs>

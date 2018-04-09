@@ -1,8 +1,14 @@
 global.AccountsReceivable = {
     widgets : [{
+        /***************
+         * Toolbox
+         ***************/
         name: 'ToolBox',
         endpoint: global.endpoints[global.env].ACCOUNTS_RECEIVABLE_TOOLBOX
     },{
+        /***************
+         * Summary
+         ***************/
         name: 'DataTable',
         title: '',
         endpoint: global.endpoints[global.env].ACCOUNTS_RECEIVABLE,
@@ -88,10 +94,10 @@ global.AccountsReceivable = {
             }],
         options: {}
     },{
-        name: 'DataChart', // The widget type, must be CamelCased.
-        title: 'Analysis', // The widget's title
+        name: 'DataChart', // Must match an existing React Component in the components/widgets folder.
+        title: 'Analysis', // Optional. The widget's title
         endpoint: global.endpoints[global.env].ACCOUNTS_RECEIVABLE_ARAGEING, // The data endpoint
-        bootStrapClass : 'col-lg-6 col-sm-12',
+        bootStrapClass : 'col-lg-6 col-sm-12', // BootStrap grid class for the widget
         overrideBootStrapClass : 'col-12', // In case you need to override the previous class.
         label: 'Analysis', // Some chart types only offer one label (bar, line, and radar )
         type: 'pie', // Type of pie chart to display. Options listed here: https://github.com/houjiazong/react-chartjs2

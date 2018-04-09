@@ -180,6 +180,8 @@ export class DataChart extends Component {
             }
         }
 
+        console.log(this.labels);
+
         /* Push to config object */
         this.data = {
             labels: this.labels,
@@ -251,8 +253,6 @@ export class DataChart extends Component {
         this.tableData = this.props.results;  // The table data as it's returned from the database.
         this.chartData = this.processData(); // The table data after being aggregated.
 
-        console.log(this.chartData);
-        console.log(this.tableData);
         this.buildChart();
         if (this.props.options.buildTable) this.buildTable();
         if (this.props.options.showChartDetails) this.buildChartDetails();
@@ -293,7 +293,7 @@ export class DataChart extends Component {
             <div key={this.props.theKey} id={this.props.index} className={this.props.options.bootStrapClass}>
                 <div className="wrapper wrapper__content--whiteBox">
                     <h2 className={'dataTable__title'}>{title__text}</h2>
-                    <Filter filters={this.props.options.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
+                    <Filter filters={this.props.options.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} language={this.props.language} />
                     <div className={chartWidthClass}>
                         <RC2 data={this.data} type={this.chartType} />
                     </div>

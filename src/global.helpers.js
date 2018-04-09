@@ -66,7 +66,8 @@ export function HandleWebFacingLink(link) {
 	 window.open(global.paths[global.env].SERVLET_LINK + link + "&turnCacheOff=" + (new Date()).getTime(), "appa", "scrollbars=yes,status=1,resizable=yes,menubar=0,screenX=0,screenY=0,left=0,top=0,width=" + (window.availWidth-10) + ",height=" + (window.availHeight-50));
 };
 
-export function HandlePopupLink(link, windowName, width, height) {
+export function HandlePopupLink(e, link, windowName, width, height) {
+	e.preventDefault();
 	windowName = windowName ? windowName : '';
 	width = width ? width : 1024;
 	height = height ? height : 768;
@@ -242,7 +243,7 @@ export function ConvertRgbToRgba(color, opacity) {
  *
  * The Cell and Row parameters are required by the BootStrap table.
  * Cell represents the value we want to format.
- * @param cell Value stored in an individual cell. Its type depends on the stored value.
+ * @param cell Value stored in an individual cell.
  * @param row  [Object] An entire row of data.
  * @param type [String] The column's type as specified in the configuration file for that specific widget.
  * @returns Properly-formatted cell, or the original cell value if no formatting was made.
@@ -256,10 +257,17 @@ export function DataFormatter(cell, row, type) {
 			var color = row ? row.amountColor : 'inherit';
 			cell = '<span style="color:'+color+'">'+numeral(cell).format('$0,0.00')+'</span>';
         	break;
+
 		case 'link':
 			var split = cell.split(' ');
 			var param = split.join('+');
 			cell = '<a href="/commonsense/ap/menu.jsp?supplier='+row['supNum']+'&name='+param+'">'+cell+'</a>';
+			break;
+
+		case 'dataTablePopUp':
+			var split = cell.split(' ');
+			var param = split.join('+');
+			cell = '<a onClick="window.open(\'/commonsense/ap/menu.jsp?supl='+row['supNum']+'&name='+param+'\', \'Window\', \'width=200,height=200\');">'+cell+'</a>';
 			break;
 	}
 	return cell;

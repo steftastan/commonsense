@@ -414,6 +414,10 @@ body {
   margin: 0;
   padding: 0; }
 
+@media only screen and (min-device-width: 767px) {
+  .wrapper__genericComponent--margin {
+    margin-top: 60px; } }
+
 @font-face {
   font-family: 'icomoon';
   src: url("./../sass/config/icons/icomoon.eot?ddlwcq");
@@ -1344,7 +1348,6 @@ th.react-bs-table-expand-cell > div {
   .breadcrumbs {
     top: 65px;
     left: 0;
-    height: 40px;
     width: 100%;
     -webkit-transition: all 0.3s ease-in;
     -moz-transition: all 0.3s ease-in;
@@ -2140,8 +2143,7 @@ th.react-bs-table-expand-cell > div {
 
 /* Mobile */
 @media only screen and (max-device-width: 767px) {
-  .toolBox--mobileHidden,
-  .toolBoxHolder {
+  .toolBox--mobileHidden {
     display: none; }
   .toolBox {
     position: absolute;
@@ -2224,8 +2226,8 @@ th.react-bs-table-expand-cell > div {
 
 @media only screen and (min-device-width: 767px) {
   .toolBoxHolder {
-    position: absolute;
-    right: 220px;
+    position: relative;
+    left: 0;
     min-width: 45%;
     top: 0;
     height: 40px; }
@@ -2255,10 +2257,12 @@ th.react-bs-table-expand-cell > div {
     padding: 0; }
   .toolBox__item,
   .toolBox__link {
-    width: 125px; }
+    min-width: 125px;
+    max-width: 300px; }
   .toolBox__item.dropdown-submenu,
   .toolBox__item.dropdown {
-    width: 200px; }
+    min-width: 250px;
+    max-width: 500px; }
   .toolBox__link {
     display: block;
     padding: 0;
@@ -2760,7 +2764,8 @@ th.react-bs-table-expand-cell > div {
 .dropdown-menu > li > a.toolBox__link {
   padding: 15px 20px;
   text-align: left;
-  color: #FFF; }
+  color: #FFF;
+  white-space: normal !important; }
 
 /* ==========================================================================
    OVERRIDES
