@@ -1,8 +1,14 @@
 global.AccountsReceivable = {
     widgets : [{
+        /***************
+         * Toolbox
+         ***************/
         name: 'ToolBox',
         endpoint: global.endpoints[global.env].ACCOUNTS_RECEIVABLE_TOOLBOX
     },{
+        /***************
+         * Summary
+         ***************/
         name: 'DataTable',
         title: '',
         endpoint: global.endpoints[global.env].ACCOUNTS_RECEIVABLE,
@@ -88,38 +94,61 @@ global.AccountsReceivable = {
             }],
         options: {}
     },{
-        name: 'DataChart',
-        title: 'Analysis',
-        endpoint: global.endpoints[global.env].ACCOUNTS_RECEIVABLE_ARAGEING,
-        bootStrapClass : 'col-lg-6 col-sm-12',
-        type: 'bar',
-        groupBy: 'desc',
-        calculateBy: 'total',
-        label: 'Analysis',
-        buildTable: false,
-        formatTableData: { name: 'total', type: 'currency'},
+        name: 'DataChart', // Must match an existing React Component in the components/widgets folder.
+        title: 'Analysis', // Optional. The widget's title
+        endpoint: global.endpoints[global.env].ACCOUNTS_RECEIVABLE_ARAGEING, // The data endpoint
+        bootStrapClass : 'col-lg-6 col-sm-12', // BootStrap grid class for the widget
+        overrideBootStrapClass : 'col-12', // In case you need to override the previous class.
+        label: 'Analysis', // Some chart types only offer one label (bar, line, and radar )
+        type: 'pie', // Type of pie chart to display. Options listed here: https://github.com/houjiazong/react-chartjs2
+        groupBy: { name: 'desc'}, // The field used to group the elements in the chart together
+        calculateBy: { name: 'total', type: 'currency'}, // The field used to calculate the percentage of each group
+        topElems: 5, // Show this many number of individual elements, group the rest under "Other" category
+        showChartDetails: true, // Display percentages next to the graphic chart
+        buildTable: true, // Show data table with more detailed breakdown
+        hideTitleInTable: true, // Hide the title that comes with DataTable widget.
+        tableWrapperClass : 'wrapper--noWrapper', // Helps remove margins and paddings from DataTable widget.
+        defaultColumns: [ // Show these columns first time the widget loads or if no customColumns are specified
+            {name: 'period1', width: 50, type: 'currency', align: 'right'},
+            {name: 'desc', width: 50, align: 'left', type: 'link'},
+            {name: 'total', width: 30, type: 'currency', align: 'right'}],
         filters: [{
             /*Dropdown group 1*/
             group: [{
                 displayName: 'Branch/Division',
                 params: 'branch=branch',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+                customChart: {type: 'bar', groupBy: 'desc', calculateBy: 'total'},
+                customColumns: [
+                    {name: 'address', width: 50, align: 'left'},
+                    {name: 'code', width: 30, align: 'center'}]
             }, {
                 displayName: 'Salesman',
                 params: 'branch=salesman',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+                customChart: {type: 'doughnut', groupBy: 'desc', calculateBy: 'total'},
+                customColumns: [
+                    {name: 'period1', width: 50, align: 'left', type: 'currency' },
+                    {name: 'period2', width: 30, align: 'center', type: 'currency' }]
             }, {
                 displayName: 'Territory',
                 params: 'branch=territory',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+                customChart: {type: 'line', groupBy: 'desc', calculateBy: 'total'},
+                customColumns: [
+                    {name: 'period1', width: 50, align: 'left', type: 'currency'},
+                    {name: 'desc', width: 30, align: 'center'}]
             }, {
                 displayName: 'Customer Type',
                 params: 'branch=type',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+                customChart: {type: 'radar', groupBy: 'desc', calculateBy: 'total'},
+                customColumns: [
+                    {name: 'current', width: 50, align: 'left',  type: 'currency' },
+                    {name: 'period4', width: 30, align: 'center',  type: 'currency' }]
             }, {
                 displayName: 'Ageing Code',
                 params: 'branch=ageing',
-                customColumns: [{type: 'bar', aggregateBy: '', calculateBy: ''}]
+                customChart: {type: 'polarArea', groupBy: 'desc', calculateBy: 'total'},
+                customColumns: [
+                    {name: 'period1', width: 50, align: 'left'},
+                    {name: 'desc', width: 30, align: 'center'}]
             }]
         }, {
             /* Dropdown group 2 */

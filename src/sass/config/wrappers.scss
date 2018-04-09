@@ -227,3 +227,14 @@
     @include desktop {
     }
 }
+
+.wrapper--noWrapper {
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper__genericComponent--margin {
+    @include tablet {
+        margin-top: 60px;
+    }
+}

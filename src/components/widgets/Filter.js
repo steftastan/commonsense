@@ -44,7 +44,7 @@ export class Filter extends Component {
          this.queryArray = this.queryArray.concat(params);
 
         /* Build the query string */
-        if (this.queryArray.length) {
+        if (this.queryArray.length && this.props.filterHandler) {
             this.queryString = this.queryArray.join('&');
             this.queryArray = [];
             this.props.filterHandler('?'+this.queryString, this.props.id);
@@ -85,7 +85,7 @@ export class Filter extends Component {
                     this.filter.push(
                         <input className="filter"
                             key={i} type="text"
-                            placeholder={allFilters[i].group.displayName}
+                            placeholder={this.Localization(allFilters[i].group.displayName, this.props.language)}
                             defaultValue={value}
                             name={allFilters[i].group.params}
                             params={allFilters[i].group.params}/>);
@@ -114,7 +114,7 @@ export class Filter extends Component {
         if (this.props.companies && this.props.companies.results) {
             this.companyList = this.props.companies.results.map(function(item, key) {
                 if (item.name) {
-                    return (<option key={key} value={item.name} id={key}>{item.name}</option>);
+                    return (<option key={key} value={item.name} id={key}>{this.Localization(item.name, this.props.language)}</option>);
                 }
             }, this);
         }

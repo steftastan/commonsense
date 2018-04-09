@@ -178,8 +178,10 @@ export class ToolBox extends Component {
         navButton.addEventListener('mousedown', this.toggleNav, false);
         this.toolBoxWrapper = document.getElementById(this.toolBoxId);
 
+        $("#toolBox").detach().appendTo("#toolBoxHolder");
         if (this.state.device === 'mobile') {
             this.toolBoxWrapper.addEventListener('click', this.animateToolBox);
+
         } else {
             $(document).ready(function() {
                 $('.navbar a.toolBox__toggle').on('click', function(e) {
@@ -196,7 +198,7 @@ export class ToolBox extends Component {
                     return false;
                 });
 
-                $("#toolBox").detach().appendTo("#toolBoxHolder");
+
             });
 
             $(document).mouseup(function(e) {

@@ -16,7 +16,7 @@
 }
 
 .dataChart__heading {
-    background-color: $blue-90;
+    background-color: $blue-60;
     text-transform: uppercase;
     @include font($font-size-content, $font-weight-bold, $white);
 
@@ -39,7 +39,7 @@
 }
 
 .dataChart__row:hover {
-    background-color: $blue-50;
+    background-color: $blue-40;
     color: $white;
     cursor: pointer;
 }

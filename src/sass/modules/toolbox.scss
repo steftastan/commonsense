@@ -14,8 +14,7 @@
 
 /* Mobile */
 @include mobile {
-    .toolBox--mobileHidden,
-    .toolBoxHolder {
+    .toolBox--mobileHidden {
         display: none;
     }
 
@@ -120,8 +119,8 @@
 @include tablet {
 
     .toolBoxHolder {
-        position: absolute;
-        right: 220px;
+        position: relative;
+        left: 0;
         min-width: 45%;
         top: 0;
         height: 40px;
@@ -164,12 +163,14 @@
 
     .toolBox__item,
     .toolBox__link {
-        width: 125px;
+        min-width: 125px;
+        max-width: 300px;
     }
 
      .toolBox__item.dropdown-submenu,
      .toolBox__item.dropdown {
-         width: 200px;
+         min-width: 250px;
+         max-width: 500px;
      }
 
     .toolBox__link {
@@ -178,7 +179,7 @@
         background-color: $blue-60;
         line-height: 40px;
         text-align: center;
-        @include font($font-size-mobile-small, $font-weight-regular, $white);
+        @include font(10px, $font-weight-regular, $white);
     }
 
     .toolBox__link:hover {

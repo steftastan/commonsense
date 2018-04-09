@@ -300,7 +300,6 @@ export class BreadCrumbs extends Component {
                     <div className="grid__item breadcrumbs__trail">
                         {this.state.trail}
                     </div>
-                    {this.props.children}
                     <div className="grid__item rightnav rightnav--mobileHidden">
                         <div id="langWrapper" className="wrapper rightnav__langSelect">
                             <div className="rightnav__container">
@@ -310,6 +309,7 @@ export class BreadCrumbs extends Component {
                         </div>
                         <Link className="rightnav__logout" to="/commonsense">{logout__text}</Link>
                     </div>
+                    {this.props.children}
                 </div>
             </section>
         );

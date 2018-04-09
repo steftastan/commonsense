@@ -38,10 +38,11 @@ export class DataTable extends Component {
 
     renderTable(index) {
         var title__text;
-        var columnName__text;
+        var displayName__text;
         var align;
         var filterBy;
-        var columnName;
+        var dataField;
+        var displayName;
         var columnType;
         var columnWidth;
         var id;
@@ -76,18 +77,18 @@ export class DataTable extends Component {
                     this.dataColumns = (this.props.options.defaultColumns ? this.props.options.defaultColumns : Object.keys(this.tableData[0]));
                 }
             }
-
         }
 
         /* Build table with all the data we acquired */
         if (this.dataColumns.length) {
             this.tableHeaders = this.dataColumns.map(function(item, key) {
                 filterBy = (this.dataColumns && (this.dataColumns.indexOf(item) !== -1)) ? { type: 'TextFilter' } : {};
-                columnName = item.name || item;
+                dataField = item.name || item;
+                displayName = item.displayName || dataField;
                 columnType = item.type || '';
                 id = (item.type === 'id' ? item : {});
                 columnWidth = ''+item.width+'' || 50; // Column width, or defaults to 50, whatever that means.
-                columnName__text = this.Localization(columnName, this.props.language); // Translated version of the column name.
+                displayName__text = this.Localization(displayName, this.props.language); // Translated version of the column name.
                 align = (item.align || 'left'); // Align contents to whatever specified or fall back to left-alignment
 
                 return (
@@ -100,8 +101,8 @@ export class DataTable extends Component {
                         formatExtraData={columnType}
                         filter={filterBy}
                         dataSort={true}
-                        dataField={columnName}>
-                            {columnName__text}
+                        dataField={dataField}>
+                            {displayName__text}
                     </TableHeaderColumn>
                 );
             }, this);
@@ -110,11 +111,12 @@ export class DataTable extends Component {
         if (this.tableData && this.dataColumns) {
             /*Translated version of title*/
             title__text = this.Localization(this.props.options.title, this.props.language);
+            var dataTableTitle = (this.props.options.hideTitleInTable ? '' : (<h2 className='dataTable__title'>{title__text}</h2>));
 
             this.table = (
-                <div className="wrapper wrapper__content--whiteBox">
-                    <h2 className={'dataTable__title'}>{title__text}</h2>
-                    <Filter filters={this.props.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams} />
+                <div className={this.props.options.tableWrapperClass || "wrapper wrapper__content--whiteBox"}>
+                    {dataTableTitle}
+                    <Filter filters={this.props.filters} dbFilters={this.props.dbFilters || []} id={this.props.index} filterHandler={this.props.filterHandler} defaultParams={this.props.options.defaultParams}  language={this.props.language}/>
                     <BootstrapTable key={this.props.index} data={this.tableData} options={this.options} striped hover pagination tableHeaderClass={'dataTable__row--header'} trClassName={'dataTable__row--content'}>
                         {this.tableHeaders}
                     </BootstrapTable>
@@ -208,8 +210,9 @@ export class DataTable extends Component {
     }
 
     render() {
+        var bootstrapClass = (this.props.options.overrideBootStrapClass ? this.props.options.overrideBootStrapClass : this.props.options.bootStrapClass);
         return (
-            <div key={this.props.index} id={this.props.index} className={this.props.options.bootStrapClass}>
+            <div key={this.props.index} id={this.props.index} className={bootstrapClass}>
                 {this.table}
             </div>
         );
