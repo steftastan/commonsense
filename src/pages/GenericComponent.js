@@ -153,7 +153,7 @@ export class GenericComponent extends Component {
     render() {
         var content = (this.state.widgets && this.state.widgets.length ? <div>{this.state.widgets}</div> : <div className="spinner"></div>);
         var toolBoxMargin = (this.hasToolBox ? 'wrapper__genericComponent--margin' : '');
-        console.log(this.hasToolBox);
+
         return (
             <div className={"wrapper__genericComponent "+toolBoxMargin}>
                 <BreadCrumbs breadcrumbs={this.props.page} language={this.props.language}>

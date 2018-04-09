@@ -180,8 +180,6 @@ export class DataChart extends Component {
             }
         }
 
-        console.log(this.labels);
-
         /* Push to config object */
         this.data = {
             labels: this.labels,
