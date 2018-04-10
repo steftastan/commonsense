@@ -1,27 +1,15 @@
 {
     "results" : [{
-        "title" : "Vouchers",
-        "url": "http://google.com",
-        "isPopUp" : false
+        "title" : "Adjustments",
+        "url": "'/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=INV72&app=SIAWebFacing"
     }, {
-        "title" : "Debit Notes",
-        "url": "http://google.com",
-        "isPopUp" : true
+        "title" : "Deposits",
+        "url": "'/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=INV37&app=SIAWebFacing"
     }, {
-        "title" : "Cash Notes",
-        "url": "http://google.com",
-        "isPopUp" : false
+        "title" : "Invoice",
+        "url": "'/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=INV26&app=SIAWebFacing"
     }, {
-        "title" : "Manual Cheques",
-        "url": "http://google.com",
-        "isPopUp" : false
-    }, {
-        "title" : "Future Vouchers",
-        "url": "http://google.com",
-        "isPopUp" : true
-    }, {
-        "title" : "Periodic Vouchers",
-        "url": "http://google.com",
-        "isPopUp" : true
+        "title" : "Collection",
+        "url": "'/commonsense/servlet/com.sia.commonsense.shared.GatewayServlet?inv=INV20&app=SIAWebFacing"
     }]
 }

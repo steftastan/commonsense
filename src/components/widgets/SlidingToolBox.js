@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './../../global.config.env.js';
-import { Localization } from './../../global.helpers.js';
+import { Localization, HandleWebFacingLink, HandlePopupLink, HandleRegularLink} from './../../global.helpers.js';
 
 /**
 * SLIDING TOOLBOX COMPONENT.
@@ -12,6 +12,9 @@ import { Localization } from './../../global.helpers.js';
 export class SlidingToolBox extends Component {
     constructor(props) {
       super(props);
+      this.HandleWebFacingLink = HandleWebFacingLink;
+      this.HandlePopupLink = HandlePopupLink;
+      this.HandleRegularLink = HandleRegularLink;
       this.openToolBox = this.openToolBox.bind(this);
       this.clickAnywhereToClose = this.clickAnywhereToClose.bind(this);
       this.button = 'slidingToolBoxButton';
@@ -68,17 +71,22 @@ export class SlidingToolBox extends Component {
         if (this.props.results && this.props.results.length) {
             var title__text;
             links = this.props.results.map(function(item, key) {
+                var linkOnClick;
                 title__text = Localization(item.title);
-                if (item.isPopUp) {
-                    return (
-                        <a key={key} id={key} className="slidingToolBox__item" target="popup" onClick={function(){window.open(item.url,'popup','width=600,height=600'); return false;}}>{title__text}</a>
-                    );
-                } else {
-                    return (
-                        <a key={key} id={key} className="slidingToolBox__item" href={item.url}>{title__text}</a>
-                    );
+
+                if (item.url.indexOf("GatewayServlet") !== -1) {
+                    linkOnClick = this.HandleWebFacingLink.bind(this, item.url);
+                }
+                else if (item.url.indexOf("popup") !== -1) {
+                    linkOnClick = this.HandlePopupLink.bind(this, item.url);
+                }
+                else {
+                    linkOnClick = this.HandleRegularLink.bind(this, item.url);
                 }
 
+                return (
+                    <a key={key} id={key} className="slidingToolBox__item" target="popup" onClick={linkOnClick}>{title__text}</a>
+                );
             }, this);
         }
 

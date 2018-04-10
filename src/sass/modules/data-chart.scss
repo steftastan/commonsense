@@ -61,7 +61,7 @@
 /* Desktop-specific styles */
 @include desktop {
     .dataChart__table {
-        display: inline-table;
+        display: block;
         margin-top: 0;
     }
 }

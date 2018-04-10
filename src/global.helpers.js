@@ -269,6 +269,13 @@ export function DataFormatter(cell, row, type) {
 			var param = split.join('+');
 			cell = '<a onClick="window.open(\'/commonsense/ap/menu.jsp?supl='+row['supNum']+'&name='+param+'\', \'Window\', \'width=200,height=200\');">'+cell+'</a>';
 			break;
+
+		case 'accountsReceivablePopUp':
+			var split = cell.split(' ');
+			var param = split.join('+');
+			cell = '<a onClick="window.open(\'/commonsense/servlet/com.sia.commonsense.arageing.servlets.ArCustomerServlet?custNo='+row['custNo']+'&custSub=9999&target=popup\', \'Window\', \'width=200,height=200\');">'+cell+'</a>';
+			break;
+
 	}
 	return cell;
 }

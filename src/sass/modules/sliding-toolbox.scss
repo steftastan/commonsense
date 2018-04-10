@@ -61,6 +61,7 @@
     -moz-transition: right  0.3s ease-in;
     -o-transition: right  0.3s ease-in;
     transition: right  0.3 ease-in;
+    cursor: pointer;
 }
 
 .slidingToolBox__item:hover {
@@ -90,7 +91,7 @@
     .slidingToolBox__button {
         display: block;
         position: fixed;
-        top: 105px;
+        top: 110px;
         right: 0;
         width: 45px;
         height: 30px;
@@ -108,7 +109,7 @@
 
     .slidingToolBox__links {
         position: fixed;
-        top: 105px;
+        top: 110px;
         right: -271px;
     }
 
