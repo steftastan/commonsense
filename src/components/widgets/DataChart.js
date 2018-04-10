@@ -48,7 +48,7 @@ export class DataChart extends Component {
     /*
      * Build data to in the statistics chart.
      * Reference to this solution:
-     *https://stackoverflow.com/questions/21874436/summarize-and-group-json-object-in-jquery
+     * https://stackoverflow.com/questions/21874436/summarize-and-group-json-object-in-jquery
     **/
     processData() {
 
@@ -57,22 +57,24 @@ export class DataChart extends Component {
 
         var output = {};
         var parseNumber = 0;
-        var index = 0;
+        // var index = 0;
 
         if (this.props.results && groupBy && calculateBy) {
             try {
-                output = this.props.results.reduce(function(out, curr) {
+                output = this.props.results.reduce(function(out, curr, index) {
 
                     parseNumber = (!isNaN(curr[calculateBy]) ? Math.floor(curr[calculateBy]) : Math.floor(parseInt(curr[calculateBy].replace(/\s/g, "").replace(",", ""))));
-                    out.dataset[index] = out.dataset[curr[groupBy]] || {};
-                    out.dataset[index][groupBy] = curr[groupBy] || {};
-                    out.dataset[index][calculateBy] = (out.dataset[index][calculateBy] || 0) + parseNumber;
+
+                    out.dataset[curr[groupBy]] = out.dataset[curr[groupBy]] || {};
+                    out.dataset[curr[groupBy]][groupBy] = curr[groupBy] || {};
+                    out.dataset[curr[groupBy]][calculateBy] = (out.dataset[curr[groupBy]][calculateBy] || 0) + parseNumber;
+
                     out.total['total'] = (out.total['total'] || 0) + parseNumber;
 
-                    index++;
+                    // index++;
                     return out;
 
-                }, {'dataset' : [], 'total':{}});
+                }, {'dataset' : {}, 'total':{}});
             } catch (e) {
                 /* The operation fails if:
                  *
@@ -249,14 +251,23 @@ export class DataChart extends Component {
      */
     componentWillMount() {
         this.tableData = this.props.results;  // The table data as it's returned from the database.
-        this.chartData = this.processData(); // The table data after being aggregated.
+        var dataObject = this.processData(); // The table data after being grouped.
+        var dataArray = [];
+
+        for (var key in dataObject.dataset) {
+            if (!dataObject.dataset.hasOwnProperty(key)) continue;
+            var obj = dataObject.dataset[key];
+            dataArray.push(obj);
+        }
+
+        dataObject.dataset = dataArray;
+        this.chartData = dataObject;
 
         this.buildChart();
         if (this.props.options.buildTable) this.buildTable();
         if (this.props.options.showChartDetails) this.buildChartDetails();
 
     }
-
 
     componentDidUpdate(prevProps, prevState) {
         var data = {};
@@ -268,8 +279,20 @@ export class DataChart extends Component {
         */
         if (prevProps.results !== this.props.results) {
             this.setState({ updated: true });
-            this.buildChart(this.props.index);
+            var dataObject = this.processData(); // The table data after being grouped.
+            var dataArray = [];
+
+            for (var key in dataObject.dataset) {
+                if (!dataObject.dataset.hasOwnProperty(key)) continue;
+                var obj = dataObject.dataset[key];
+                dataArray.push(obj);
+            }
+
+            dataObject.dataset = dataArray;
+            this.chartData = dataObject;
+
             this.tableData = this.props.results;
+            this.buildChart(this.props.index);
             if (this.props.options.buildTable) this.buildTable();
             if (this.props.options.showChartDetails) this.buildChartDetails();
         }

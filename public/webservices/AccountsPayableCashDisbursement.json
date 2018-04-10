@@ -9,24 +9,6 @@
             "totalDue":230.23,
             "type":"CRAB BATTLE"
         },
-        "13040":{
-            "currency":"CAN",
-            "currentWeek":0.0,
-            "location":"1",
-            "name":"Ministere du Reven",
-            "supNum":13040,
-            "totalDue":12783.12,
-            "type":"SEND BOBS"
-        },
-        "18020":{
-            "currency":"CAN",
-            "currentWeek":0.0,
-            "location":"1",
-            "name":"Receiver General o",
-            "supNum":18020,
-            "totalDue":6105.63,
-            "type":"SA"
-        },
         "18085":{
             "currency":"CAN",
             "currentWeek":0.0,
@@ -251,42 +233,6 @@
             "supNum":18085,
             "totalDue":15018.03,
             "type":"THING"
-        },
-        "23300":{
-            "currency":"CAN",
-            "currentWeek":0.0,
-            "location":"1",
-            "name":"Xerox Canada Ltee",
-            "supNum":23300,
-            "totalDue":338.73,
-            "type":"WHATEVER"
-        },
-        "3187":{
-            "currency":"CAN",
-            "currentWeek":0.0,
-            "location":"1",
-            "name":"COMMISSION DE LA S",
-            "supNum":3187,
-            "totalDue":1737.59,
-            "type":"ZO"
-        },
-        "3325":{
-            "currency":"CAN",
-            "currentWeek":0.0,
-            "location":"1",
-            "name":"Gaudreau Assurance",
-            "supNum":3325,
-            "totalDue":1525.0,
-            "type":"LOL"
-        },
-        "9020":{
-            "currency":"CAN",
-            "currentWeek":0.0,
-            "location":"1",
-            "name":"IBM CANADA LTD-M21",
-            "supNum":9020,
-            "totalDue":4289.64,
-            "type":"TI"
         }
     },
     "year":2018,
