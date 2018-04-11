@@ -140,28 +140,10 @@ global.AccountsReceivable = {
             **/
             group: [{
                 displayName: 'Branch/Division',
-                params: 'branch=branch',
-                customChart: {type: 'bar', groupBy: 'desc', calculateBy: 'total'},
-                customColumns: [
-                    {name: 'code', width: 20, align: 'center'},
-                    {name: 'desc', width: 30 },
-                    {name: 'current', width: 30, type: 'currency' },
-                    {name: 'period1', width: 30, type: 'currency' },
-                    {name: 'period2', width: 30, type: 'currency' },
-                    {name: 'period3', width: 30, type: 'currency' },
-                    {name: 'period4', width: 30, type: 'currency' }]
+                params: 'branch=branch'
             }, {
                 displayName: 'Salesman',
-                params: 'branch=salesman',
-                customChart: {type: 'bar', groupBy: 'desc', calculateBy: 'total'},
-                customColumns: [
-                    {name: 'code', width: 20, align: 'center'},
-                    {name: 'desc', width: 30 },
-                    {name: 'current', width: 30, type: 'currency' },
-                    {name: 'period1', width: 30, type: 'currency' },
-                    {name: 'period2', width: 30, type: 'currency' },
-                    {name: 'period3', width: 30, type: 'currency' },
-                    {name: 'period4', width: 30, type: 'currency' }]
+                params: 'branch=salesman'
             }, {
                 displayName: 'Territory',
                 params: 'branch=territory',
@@ -176,7 +158,7 @@ global.AccountsReceivable = {
                     {name: 'period4', width: 30, type: 'currency' }]
             }, {
                 displayName: 'Customer Type',
-                params: 'branch=type',
+                params: 'branch=customer',
                 customChart: {type: 'pie', groupBy: 'desc', calculateBy: 'total'},
                 customColumns: [
                     {name: 'code', width: 20, align: 'center'},
@@ -202,11 +184,29 @@ global.AccountsReceivable = {
         }, {
             /* Dropdown group 2 */
             group: [{
-                displayName: 'Total Receivables',
-                params: 'by=total'
-            }, {
                 displayName: 'Receivables by Period',
-                params: 'by=period'
+                params: 'by=period',
+                customChart: {type: 'bar', groupBy: 'period1 period2 period3 period4', calculateBy: 'total', labels: 'desc'},
+                customColumns: [
+                    {name: 'code', width: 20, align: 'center'},
+                    {name: 'desc', width: 30 },
+                    {name: 'current', width: 30, type: 'currency' },
+                    {name: 'period1', width: 30, type: 'currency' },
+                    {name: 'period2', width: 30, type: 'currency' },
+                    {name: 'period3', width: 30, type: 'currency' },
+                    {name: 'period4', width: 30, type: 'currency' }]
+            }, {
+                displayName: 'Total Receivables',
+                params: 'by=total',
+                customChart: {type: 'bar', groupBy: 'desc', calculateBy: 'total'},
+                customColumns: [
+                    {name: 'code', width: 20, align: 'center'},
+                    {name: 'desc', width: 30 },
+                    {name: 'current', width: 30, type: 'currency' },
+                    {name: 'period1', width: 30, type: 'currency' },
+                    {name: 'period2', width: 30, type: 'currency' },
+                    {name: 'period3', width: 30, type: 'currency' },
+                    {name: 'period4', width: 30, type: 'currency' }]
             }]
         }]
     },

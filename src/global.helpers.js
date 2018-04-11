@@ -273,7 +273,7 @@ export function DataFormatter(cell, row, type) {
 		case 'accountsReceivablePopUp':
 			var split = cell.split(' ');
 			var param = split.join('+');
-			cell = '<a onClick="window.open(\'/commonsense/servlet/com.sia.commonsense.arageing.servlets.ArCustomerServlet?custNo='+row['custNo']+'&custSub=9999&target=popup\', \'Window\', \'width=200,height=200\');">'+cell+'</a>';
+			cell = '<a onClick="window.open(\'/commonsense/servlet/com.sia.commonsense.arageing.servlets.ArCustomerServlet?custNo='+row['no']+'&custSub='+row['sub']+'&target=popup\', \'Window\', \'width=200,height=200\');">'+cell+'</a>';
 			break;
 
 	}

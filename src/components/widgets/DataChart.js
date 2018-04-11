@@ -121,6 +121,7 @@ export class DataChart extends Component {
     buildChart(index) {
         var groupBy = this.props.options.groupBy.name;
         var calculateBy = this.props.options.calculateBy.name;
+        var labelBy = '';
         var chartLabel = this.Localization(this.props.options.label, this.props.language) || '';
         var backgroundColor = [];
         var borderColor = [];
@@ -128,22 +129,26 @@ export class DataChart extends Component {
         var topElems = [];
         var otherElems = [];
         var otherSum = [];
+        var datasets = [];
         this.chartType = this.props.options.type || 'pie';
 
-        if (this.props.options.filters && this.props.options.filters.length) {
+        if (window.location.search || this.props.options.filters && this.props.options.filters.length) {
             for (var i = 0; i < this.props.options.filters.length; i++) {
 
                 /* Checks the filter type, if group is an Array it is a dropdown menu */
                 if (this.props.options.filters[i].group instanceof Array && this.props.options.filters[i].group.length) {
 
+                    var search = window.location.search || this.props.search;
+
                     for (var j = 0; j < this.props.options.filters[i].group.length; j++) {
-                        if (this.props.search.indexOf(this.props.options.filters[i].group[j].params) !== -1) {
+                        if (search.indexOf(this.props.options.filters[i].group[j].params) !== -1) {
 
                             /* Display the correct custom column set depending on user criteria */
                             if (this.props.options.filters[i].group[j].customChart) {
                                 this.chartType = this.props.options.filters[i].group[j].customChart.type;
                                 groupBy = this.props.options.filters[i].group[j].customChart.groupBy;
                                 calculateBy = this.props.options.filters[i].group[j].customChart.calculateBy;
+                                labelBy = this.props.options.filters[i].group[j].customChart.labels;
                             }
 
                             break;
@@ -162,37 +167,87 @@ export class DataChart extends Component {
             topElems = sortedDataset;
         }
 
-        /* Make labels for the top elements */
-        for (var i = 0; i < topElems.length; i++) {
-            this.labels.push(topElems[i][groupBy]);
-            this.chartDataArray.push(topElems[i][calculateBy]);
-        }
+        /* Handle Multiple Data Sets */
+        if (groupBy.indexOf(' ') !== -1) {
+            var groupBy = groupBy.split(" ");
+            var dataObj = {};
+            chartLabel = [];
 
-        /* Create an "other" label for all non-top elements */
-        if (otherElems.length) {
-            this.labels.push(this.Localization('others', this.props.language));
-            this.chartDataArray.push(otherSum);
-        }
-
-        /* Add cosmetic details */
-        if (this.labels.length) {
-            for (var i = 0; i < this.labels.length; i++) {
-                borderColor.push(this.colors[i]);
-                backgroundColor.push(this.ConvertRgbToRgba(this.colors[i], 0.2));
+            /* Make labels for the top elements */
+            for (var i = 0; i < topElems.length; i++) {
+                this.labels = groupBy;
             }
-        }
 
-        /* Push to config object */
-        this.data = {
-            labels: this.labels,
-            type: this.chartType,
-            datasets: [{
+            this.tableData.map(function(item, key) {
+
+                for (var i = 0; i < groupBy.length; i++) {
+
+                    if (item.hasOwnProperty(labelBy)) {
+                        chartLabel = item[labelBy];
+                        borderColor.push(this.colors[key]);
+                        backgroundColor.push(this.ConvertRgbToRgba(this.colors[key], 0.2));
+                    }
+
+                    if (item.hasOwnProperty(groupBy[i])) {
+                        var prop = groupBy[i];
+                        this.chartDataArray.push(item[prop]);
+                    }
+                }
+
+
+                dataObj = {
+                    label: chartLabel,
+                    data: this.chartDataArray,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    borderWidth: 1
+                };
+
+                datasets.push(dataObj);
+                this.chartDataArray = [];
+                backgroundColor = [];
+                borderColor = [];
+
+            }, this);
+
+
+        } else {
+            /* Single Datasets*/
+            /* Make labels for the top elements */
+            for (var i = 0; i < topElems.length; i++) {
+                this.labels.push(topElems[i][groupBy]);
+                this.chartDataArray.push(topElems[i][calculateBy]);
+            }
+
+            /* Create an "other" label for all non-top elements */
+            if (otherElems.length) {
+                this.labels.push(this.Localization('others', this.props.language));
+                this.chartDataArray.push(otherSum);
+            }
+
+            /* Add cosmetic details */
+            if (this.labels.length) {
+                for (var i = 0; i < this.labels.length; i++) {
+                    borderColor.push(this.colors[i]);
+                    backgroundColor.push(this.ConvertRgbToRgba(this.colors[i], 0.2));
+                }
+            }
+
+            datasets = [{
                 label: chartLabel,
                 data: this.chartDataArray,
                 backgroundColor: backgroundColor,
                 borderColor: borderColor,
                 borderWidth: 1
-            }]
+            }];
+        }
+
+        // console.log(datasets);
+        /* Push to config object */
+        this.data = {
+            labels: this.labels,
+            type: this.chartType,
+            datasets: datasets
         };
 
         this.chartDataArray = [];
