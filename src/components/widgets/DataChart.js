@@ -205,24 +205,15 @@ export class DataChart extends Component {
 
                 datasets.push(dataObj);
                 this.chartDataArray = [];
-                backgroundColor = [];
-                borderColor = [];
 
             }, this);
 
 
         } else {
             /* Single Datasets*/
-            /* Make labels for the top elements */
             for (var i = 0; i < topElems.length; i++) {
                 this.labels.push(topElems[i][groupBy]);
                 this.chartDataArray.push(topElems[i][calculateBy]);
-            }
-
-            /* Create an "other" label for all non-top elements */
-            if (otherElems.length) {
-                this.labels.push(this.Localization('others', this.props.language));
-                this.chartDataArray.push(otherSum);
             }
 
             /* Add cosmetic details */
@@ -242,7 +233,12 @@ export class DataChart extends Component {
             }];
         }
 
-        // console.log(datasets);
+        /* Create an "other" label for all non-top elements */
+        if (otherElems.length) {
+            this.labels.push(this.Localization('others', this.props.language));
+            this.chartDataArray.push(otherSum);
+        }
+
         /* Push to config object */
         this.data = {
             labels: this.labels,
@@ -252,6 +248,9 @@ export class DataChart extends Component {
 
         this.chartDataArray = [];
         this.labels = [];
+        backgroundColor = [];
+        borderColor = [];
+
     }
 
     /** Helps us render formatted cells that could have additional HTML formatting */
