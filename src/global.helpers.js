@@ -267,13 +267,19 @@ export function DataFormatter(cell, row, type) {
 		case 'dataTablePopUp':
 			var split = cell.split(' ');
 			var param = split.join('+');
-			cell = '<a onClick="window.open(\'/commonsense/ap/menu.jsp?supl='+row['supNum']+'&name='+param+'\', \'Window\', \'width=200,height=200\');">'+cell+'</a>';
+			cell = '<a onClick="window.open(\'/commonsense/ap/menu.jsp?supl='+row['supNum']+'&name='+param+'\', \'Window\', \'width=1024,height=768\');">'+cell+'</a>';
+			break;
+
+		case 'accountsReceivableSummaryPopUp':
+			var split = cell.split(' ');
+			var param = split.join('+');
+			cell = '<a onClick="window.open(\'/commonsense/servlet/com.sia.commonsense.arageing.servlets.ArCustomerServlet?custNo='+row['custNo']+'&custSub='+row['custSub']+'&target=popup\', \'Window\', \'width=1024,height=768\');">'+cell+'</a>';
 			break;
 
 		case 'accountsReceivablePopUp':
 			var split = cell.split(' ');
 			var param = split.join('+');
-			cell = '<a onClick="window.open(\'/commonsense/servlet/com.sia.commonsense.arageing.servlets.ArCustomerServlet?custNo='+row['no']+'&custSub='+row['sub']+'&target=popup\', \'Window\', \'width=200,height=200\');">'+cell+'</a>';
+			cell = '<a onClick="window.open(\'/commonsense/servlet/com.sia.commonsense.arageing.servlets.ArCustomerServlet?custNo='+row['no']+'&custSub='+row['sub']+'&target=popup\', \'Window\', \'width=1024,height=768\');">'+cell+'</a>';
 			break;
 
 	}

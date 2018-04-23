@@ -336,11 +336,16 @@ export class App extends Component {
             );
         } else {
             /*set timeout to hide login while stuff loads */
-            setTimeout(function() {
-                this.setState({content: (
-                    <Login/>
-                )});
-            }.bind(this), 1000);
+            // setTimeout(function() {
+            //     this.setState({content: (
+            //         <Login/>
+            //     )});
+            // }.bind(this), 1000);
+            console.log(window.location.pathname);
+            console.log(global.paths[global.env].REACT_LINK+'login');
+            if (window.location.pathname === global.paths[global.env].REACT_LINK+'login') {
+                window.location.href = global.paths[global.env].REACT_LINK+'login';
+            }
 
             return (
                 <div className="wrapper wrapper__app App">

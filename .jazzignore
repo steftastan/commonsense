@@ -28,4 +28,6 @@ core.ignore.recursive=
 
 core.ignore= \
 	{node_modules} \
-	{yarn.lock} 
+	{yarn.lock} \
+	{build} \
+	{npm-debug.log*}

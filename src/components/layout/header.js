@@ -15,7 +15,7 @@ export class Header extends Component {
 
     render() {
         var defaultCompanyName = (this.props.defaultCompanyName ? this.props.defaultCompanyName : '');
-        var commonSense = (this.props.defaultCompanyName ? 'CommonSense 2.0' : '');
+        var commonSense = (this.props.defaultCompanyName ? 'Common Sense 2.0' : '');
 
         return (
             <header id="header" className="wrapper header">

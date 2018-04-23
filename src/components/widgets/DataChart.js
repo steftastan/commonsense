@@ -125,7 +125,7 @@ export class DataChart extends Component {
         var chartLabel = this.Localization(this.props.options.label, this.props.language) || '';
         var backgroundColor = [];
         var borderColor = [];
-        var sortedDataset = this.chartData.dataset.sort(function(a, b) {return (a[calculateBy] < b[calculateBy]) ? 1 : ((b[calculateBy] < a[calculateBy]) ? -1 : 0);});
+        var sortedDataset = [];
         var topElems = [];
         var otherElems = [];
         var otherSum = [];
@@ -158,6 +158,14 @@ export class DataChart extends Component {
             }
         }
 
+        if (groupBy.indexOf(' ') !== -1) {
+            /* Get the top elements for data with multiple datasets*/
+            sortedDataset = this.tableData.sort(function(a, b) {return (a[calculateBy] < b[calculateBy]) ? 1 : ((b[calculateBy] < a[calculateBy]) ? -1 : 0);});
+        } else {
+            /*Get the top elements for single data-set*/
+            sortedDataset = this.chartData.dataset.sort(function(a, b) {return (a[calculateBy] < b[calculateBy]) ? 1 : ((b[calculateBy] < a[calculateBy]) ? -1 : 0);});
+        }
+
         /* Split the data into Top Elements and Others if neccessary */
         if (sortedDataset.length > this.props.options.topElems) {
             topElems = sortedDataset.slice(0, (this.props.options.topElems || 5)); // Get the top 5 according to the calculateBy field
@@ -178,13 +186,14 @@ export class DataChart extends Component {
                 this.labels = groupBy;
             }
 
-            this.tableData.map(function(item, key) {
+            topElems.map(function(item, key) {
 
                 for (var i = 0; i < groupBy.length; i++) {
 
                     if (item.hasOwnProperty(labelBy)) {
                         chartLabel = item[labelBy];
                         borderColor.push(this.colors[key]);
+                        console.log(key);
                         backgroundColor.push(this.ConvertRgbToRgba(this.colors[key], 0.2));
                     }
 
@@ -193,7 +202,6 @@ export class DataChart extends Component {
                         this.chartDataArray.push(item[prop]);
                     }
                 }
-
 
                 dataObj = {
                     label: chartLabel,
@@ -205,6 +213,8 @@ export class DataChart extends Component {
 
                 datasets.push(dataObj);
                 this.chartDataArray = [];
+                backgroundColor = [];
+                borderColor = [];
 
             }, this);
 
@@ -231,13 +241,14 @@ export class DataChart extends Component {
                 borderColor: borderColor,
                 borderWidth: 1
             }];
+
+            /* Create an "other" label for all non-top elements */
+            if (otherElems.length) {
+                this.labels.push(this.Localization('others', this.props.language));
+                this.chartDataArray.push(otherSum);
+            }
         }
 
-        /* Create an "other" label for all non-top elements */
-        if (otherElems.length) {
-            this.labels.push(this.Localization('others', this.props.language));
-            this.chartDataArray.push(otherSum);
-        }
 
         /* Push to config object */
         this.data = {
@@ -248,8 +259,6 @@ export class DataChart extends Component {
 
         this.chartDataArray = [];
         this.labels = [];
-        backgroundColor = [];
-        borderColor = [];
 
     }
 

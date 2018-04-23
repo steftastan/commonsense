@@ -307,7 +307,7 @@ export class BreadCrumbs extends Component {
                             <span id="fr_CA" className="rightnav__lang">FR</span>
                             </div>
                         </div>
-                        <Link className="rightnav__logout" to="/commonsense">{logout__text}</Link>
+                        <a className="rightnav__logout" href="/commonsense">{logout__text}</a>
                     </div>
                     {this.props.children}
                 </div>

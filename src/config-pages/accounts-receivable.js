@@ -53,7 +53,7 @@ global.AccountsReceivable = {
          * [displayName]: Customizable column name to display on the Table Header.
         **/
         defaultColumns: [
-            { name: 'custNo', width: 20, displayName: '#', type: 'accountsReceivablePopUp'},
+            { name: 'custNo', width: 20, displayName: '#', type: 'accountsReceivableSummaryPopUp'},
             { name: 'custName', width: 50, displayName: 'customerName' },
             { name: 'phoneNo', width: 30, align: 'right', displayName: 'phoneNo' },
             { name: 'amountDue', width: 30, align: 'right', type: 'currency', displayName: 'amountDue' },
@@ -159,7 +159,7 @@ global.AccountsReceivable = {
             }, {
                 displayName: 'Customer Type',
                 params: 'branch=customer',
-                customChart: {type: 'pie', groupBy: 'desc', calculateBy: 'total'},
+                customChart: {type: 'bar', groupBy: 'desc', calculateBy: 'total'},
                 customColumns: [
                     {name: 'code', width: 20, align: 'center'},
                     {name: 'desc', width: 30 },
@@ -186,7 +186,7 @@ global.AccountsReceivable = {
             group: [{
                 displayName: 'Receivables by Period',
                 params: 'by=period',
-                customChart: {type: 'bar', groupBy: 'period1 period2 period3 period4', calculateBy: 'total', labels: 'desc'},
+                customChart: {type: 'bar', groupBy: 'period1 period2 period3 period4', calculateBy: 'current', labels: 'desc'},
                 customColumns: [
                     {name: 'code', width: 20, align: 'center'},
                     {name: 'desc', width: 30 },

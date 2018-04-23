@@ -18,7 +18,7 @@ global.paths = {
 
 global.endpoints  = {
     dev: {
-        AUTH: '',
+        AUTH: '/webservices/Auth.json',
         SESSION: '/webservices/Session.json',
         COMPANIES: '/webservices/Companies.json',
         ACCORDION: '/webservices/FullMenu.json',
